@@ -116,7 +116,6 @@ flowchart TB
 
     subgraph M1["Dau Thuy Dung - Assigned Tasks"]
         direction TB
-        SPACER1["　　　　　　　　　　　　"]
         D["Homepage & Login/Register"]
         E["General Contractor Dashboard"]
         F["Supplier Directory"]
@@ -148,14 +147,12 @@ flowchart TB
     B --> M1
     C --> M2
 
-    M1 --> TT["　　System Integrations - Future　　<br/>　　　Shared Responsibility　　　"]
+    M1 --> T["　　System Integrations - Future　　<br/>　　　Shared Responsibility　　　"]
     M2 --> T
 
     classDef member1 fill:#F3E8FF,stroke:#9333EA,color:#581C87
     classDef member2 fill:#FFEDD5,stroke:#EA580C,color:#9A3412
     classDef shared fill:#E8E8E8,stroke:#777777,color:#333333
-    classDef hidden fill:none,stroke:none,color:transparent
-    class SPACER1 hidden
 
     class B,D,E,F,G,R member1
     class C,H,I,J,K,L,S member2
