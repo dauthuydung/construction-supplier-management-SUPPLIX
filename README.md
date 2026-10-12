@@ -15,60 +15,158 @@ The platform connects general contractors, material suppliers, and project manag
 
 ## 2. Website Organization Chart
 
-The following diagram illustrates the proposed website structure based on three user roles and five core MVP features.
+The following diagrams illustrate the proposed website structure, implementation priorities, and team responsibilities.
+
+### 2.1. Website Structure and Implementation Priorities
+
+The website is organized around three user roles and five essential MVP features. Different colors indicate the proposed implementation priorities.
 
 ```mermaid
-flowchart TD
-    A["Homepage"]
+flowchart TB
+    A["SUPPLIX Homepage"]
     B["Login / Register"]
-    C["General Contractor Dashboard"]
-    D["Supplier Dashboard"]
-    E["Project Manager Dashboard"]
 
     A --> B
-    B --> C
-    B --> D
-    B --> E
 
-    C --> F["Supplier Directory"]
-    C --> G["Quote Request & Comparison"]
-    C --> H["Order Management"]
-    C --> I["Delivery Tracking"]
-    C --> J["Document Vault"]
+    B --> C["General Contractor Dashboard"]
+    B --> D["Supplier Dashboard"]
+    B --> E["Project Manager Dashboard"]
 
-    F --> F1["Search & Filter Suppliers"]
-    F --> F2["View Supplier Profiles"]
+    subgraph GC["General Contractor Functions"]
+        direction TB
+        F["Supplier Directory"]
+        G["Quote Request & Comparison"]
+        H["Order Management"]
+        I["Delivery Tracking"]
+        J["Document Vault"]
 
-    G --> G1["Create & Send RFQs"]
-    G --> G2["Compare Supplier Quotations"]
+        F ~~~ G
+        G ~~~ H
+        H ~~~ I
+        I ~~~ J
+    end
 
-    H --> H1["Create Purchase Orders"]
-    H --> H2["View Order Status"]
+    subgraph SP["Supplier Functions"]
+        direction TB
+        K["Manage Supplier Profile"]
+        L["Respond to RFQs"]
+        M["Confirm Purchase Orders"]
+        N["Update Delivery Status"]
+        O["Upload Supplier Documents"]
 
-    I --> I1["Monitor Deliveries"]
-    I --> I2["Delivery Notifications"]
+        K ~~~ L
+        L ~~~ M
+        M ~~~ N
+        N ~~~ O
+    end
 
-    J --> J1["Upload Documents"]
-    J --> J2["View & Download Documents"]
+    subgraph PM["Project Manager Functions"]
+        direction TB
+        P["Review Suppliers & Quotations"]
+        Q["Monitor Purchase Orders"]
+        R["Track Material Deliveries"]
+        S["Access Procurement Documents"]
 
-    D --> K["Manage Supplier Profile"]
-    D --> L["Respond to RFQs"]
-    D --> M["Confirm Purchase Orders"]
-    D --> N["Update Delivery Status"]
-    D --> O["Upload Supplier Documents"]
+        P ~~~ Q
+        Q ~~~ R
+        R ~~~ S
+    end
 
-    E --> P["Review Suppliers & Quotations"]
-    E --> Q["Monitor Purchase Orders"]
-    E --> R["Track Material Deliveries"]
-    E --> S["Access Procurement Documents"]
+    C --> F
+    D --> K
+    E --> P
+
+    subgraph FUT["Future Enhancements"]
+        direction TB
+        T1["Supplier Performance Analytics"]
+        T2["Advanced Procurement Reports"]
+        T3["System Integrations"]
+
+        T1 ~~~ T2
+        T2 ~~~ T3
+    end
+
+    A -.-> T1
 
     classDef high fill:#D5F5E3,stroke:#239B56,color:#145A32
     classDef medium fill:#FCF3CF,stroke:#D4AC0D,color:#7D6608
     classDef low fill:#D6EAF8,stroke:#2980B9,color:#154360
 
-    class A,B,C,D,E,F,F1,F2,G,G1,G2,K,L,P high
-    class H,H1,H2,I,I1,I2,J,J1,J2,M,N,O,Q,R,S medium
+    class A,B,C,D,E,F,G,K,L high
+    class H,I,J,M,N,O,P,Q,R,S medium
+    class T1,T2,T3 low
 ```
+
+**Implementation Priority Legend:**
+
+- **Green – High Priority:** Homepage, user authentication, dashboards, supplier directory, RFQ management, and quotation comparison.
+- **Yellow – Medium Priority:** Order management, delivery tracking, document management, and supporting project manager functions.
+- **Blue – Low Priority:** Future enhancements, including supplier performance analytics, advanced reporting, and system integrations.
+
+### 2.2. Team Responsibility Chart
+
+The following diagram illustrates the tasks assigned to each team member, including planned future enhancements.
+
+```mermaid
+flowchart TB
+    A["SUPPLIX Development Team"]
+
+    A --> B["Dau Thuy Dung"]
+    A --> C["黃晴"]
+
+    subgraph M1["Dau Thuy Dung - Assigned Tasks"]
+        direction TB
+        D["Homepage & Login/Register"]
+        E["General Contractor Dashboard"]
+        F["Supplier Directory"]
+        G["Quote Request & Comparison"]
+        R["Supplier Performance Analytics - Future"]
+
+        D ~~~ E
+        E ~~~ F
+        F ~~~ G
+        G ~~~ R
+    end
+
+    subgraph M2["黃晴 - Assigned Tasks"]
+        direction TB
+        H["Supplier Dashboard"]
+        I["Project Manager Dashboard"]
+        J["Order Management"]
+        K["Delivery Tracking"]
+        L["Document Vault"]
+        S["Advanced Procurement Reports - Future"]
+
+        H ~~~ I
+        I ~~~ J
+        J ~~~ K
+        K ~~~ L
+        L ~~~ S
+    end
+
+    B --> D
+    C --> H
+
+    A --> T["System Integrations - Future<br/>Shared Responsibility"]
+
+    classDef member1 fill:#F3E8FF,stroke:#9333EA,color:#581C87
+    classDef member2 fill:#FFEDD5,stroke:#EA580C,color:#9A3412
+    classDef shared fill:#E8E8E8,stroke:#777777,color:#333333
+
+    class B,D,E,F,G,R member1
+    class C,H,I,J,K,L,S member2
+    class T shared
+```
+
+**Team Responsibility Legend:**
+
+- **Purple:** Dau Thuy Dung
+- **Orange:** 黃晴
+- **Gray:** Shared responsibility
+
+The colors in Section 2.1 represent implementation priorities, while the colors in Section 2.2 identify responsible team members.
+
+Future enhancements are assigned for planning purposes and are not part of the initial MVP development scope.
 
 ## 3. Implementation Priorities
 
@@ -102,8 +200,6 @@ Future enhancements may include:
 - Advanced procurement reporting
 - Additional system integrations
 
-**Note:** All five core modules are required for the MVP. The priority colors indicate the proposed implementation sequence, not the exclusion of any MVP feature. Low-priority enhancements are outside the initial MVP scope.
-
 ## 4. Minimum Viable Product (MVP)
 
 Based on the business proposal, SUPPLIX includes five essential MVP features:
@@ -126,10 +222,13 @@ The website planning and development tasks are divided between two team members.
 
 | Team Member | Assigned Responsibilities |
 |---|---|
-| Dau Thuy Dung | Homepage, Login/Register, General Contractor Dashboard, Supplier Directory, Quote Request & Comparison |
-| Member 2 | Supplier Dashboard, Project Manager Dashboard, Order Management, Delivery Tracking, Document Vault |
+| Dau Thuy Dung | Homepage, Login/Register, General Contractor Dashboard, Supplier Directory, Quote Request & Comparison, Supplier Performance Analytics (Future) |
+| 黃晴 | Supplier Dashboard, Project Manager Dashboard, Order Management, Delivery Tracking, Document Vault, Advanced Procurement Reports (Future) |
+| Both Members | System Integrations (Future), Website Structure Review, Implementation Planning, and Overall System Integration |
 
 Both members will collaborate on reviewing the website organization chart, implementation priorities, and overall system integration.
+
+Future enhancement responsibilities are preliminary and may be adjusted during later development phases.
 
 ## 6. Development Plan
 
@@ -151,13 +250,12 @@ Both members will collaborate on reviewing the website organization chart, imple
 
 ### Phase 3: Future Enhancements
 
-- Supplier performance analytics.
-- Advanced procurement reports.
-- Additional integrations and system improvements.
+- Develop supplier performance analytics (Dau Thuy Dung).
+- Develop advanced procurement reports (黃晴).
+- Implement additional system integrations (Both Members).
 
 ## 7. Project Status
 
 Current stage: Website planning and organization design.
 
 This repository documents the proposed website structure, implementation priorities, and team responsibilities before system development begins.
-
