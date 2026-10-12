@@ -144,10 +144,11 @@ flowchart TB
         L ~~~ S
     end
 
-    B --> D
-    C --> H
+    B --> M1
+    C --> M2
 
-    A --> T["System Integrations - Future<br/>Shared Responsibility"]
+    M1 --> T["System Integrations - Future<br/>Shared Responsibility"]
+    M2 --> T
 
     classDef member1 fill:#F3E8FF,stroke:#9333EA,color:#581C87
     classDef member2 fill:#FFEDD5,stroke:#EA580C,color:#9A3412
