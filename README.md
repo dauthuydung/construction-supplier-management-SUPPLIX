@@ -72,9 +72,9 @@ flowchart TB
         R ~~~ S
     end
 
-    C --> F
-    D --> K
-    E --> P
+    C --> GC
+    D --> SP
+    E --> PM
 
     subgraph FUT["Future Enhancements"]
         direction TB
@@ -86,7 +86,7 @@ flowchart TB
         T2 ~~~ T3
     end
 
-    A -.-> T1
+    A -.-> FUT
 
     classDef high fill:#D5F5E3,stroke:#239B56,color:#145A32
     classDef medium fill:#FCF3CF,stroke:#D4AC0D,color:#7D6608
@@ -147,7 +147,7 @@ flowchart TB
     B --> M1
     C --> M2
 
-    M1 --> T["　　System Integrations - Future　　<br/>　　　Shared Responsibility　　　"]
+    M1 --> T["System Integrations - Future<br/>Shared Responsibility"]
     M2 --> T
 
     classDef member1 fill:#F3E8FF,stroke:#9333EA,color:#581C87
