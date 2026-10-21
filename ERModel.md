@@ -247,9 +247,14 @@ The following business rules define the constraints and logic governing entity r
 
 ## ER Diagram
 
-> 🟢 **MVP Entities:** User, Project, Supplier, Material, RFQ, RFQ_Item, Quotation, PurchaseOrder, PO_Item, Delivery, Document
->
-> 🔵 **Future Entities:** SupplierReview, PerformanceRecord, Report
+### Scope Summary
+
+| Scope | Entities |
+|---|---|
+| 🟢 **MVP** | `User` `Project` `Supplier` `Material` `RFQ` `RFQ_Item` `Quotation` `PurchaseOrder` `PO_Item` `Delivery` `Document` |
+| 🔵 **FUTURE** | `SupplierReview` `PerformanceRecord` `Report` |
+
+> **Note:** Mermaid erDiagram does not support color styling. MVP and Future entities are distinguished by the scope summary table above and the annotations (`[MVP]`, `[FUTURE]`) in the Entity Definitions section.
 
 ```mermaid
 erDiagram
