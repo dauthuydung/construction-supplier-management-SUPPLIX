@@ -335,14 +335,6 @@ The following features are planned for future development beyond the MVP:
 
 Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents
 
-**Full Product Workflow:**
-
-Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents → Analyze Supplier Performance → Generate Reports
-
-### Main Procurement Workflow
-
-Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents
-
 ## 6. Team Responsibilities
 
 The website planning and development tasks are divided between two team members.
