@@ -201,6 +201,108 @@ Future enhancements may include:
 - Advanced procurement reporting
 - Additional system integrations
 
+## 4. Use Cases
+
+The following use cases are derived from the business proposal and user stories. Each use case is tagged to indicate whether it is part of the **MVP** or the **Full Product** scope.
+
+- 🟢 `[MVP]` — Required for the initial launch
+- 🔵 `[FUTURE]` — Planned for future development
+
+---
+
+### 4.1 Supplier Directory
+
+| Use Case | Actor | Tag |
+|---|---|---|
+| Search and filter suppliers by material type, location, and rating | General Contractor | 🟢 `[MVP]` |
+| View supplier profile with certifications and contact details | General Contractor | 🟢 `[MVP]` |
+| Save suppliers to a preferred list | General Contractor | 🔵 `[FUTURE]` |
+| View supplier's previous transaction history | General Contractor | 🔵 `[FUTURE]` |
+| Create and manage a public supplier profile | Supplier | 🟢 `[MVP]` |
+| Receive a verified badge after submitting credentials | Supplier | 🟢 `[MVP]` |
+| Update contact information and service area | Supplier | 🟢 `[MVP]` |
+| Browse and shortlist suppliers for a project | Project Manager | 🔵 `[FUTURE]` |
+| Organize suppliers by material category | Project Manager | 🔵 `[FUTURE]` |
+
+---
+
+### 4.2 Quote Request & Comparison
+
+| Use Case | Actor | Tag |
+|---|---|---|
+| Send RFQ to multiple suppliers simultaneously | General Contractor | 🟢 `[MVP]` |
+| Compare quotes side by side on price, lead time, and delivery terms | General Contractor | 🟢 `[MVP]` |
+| Set a deadline for quote submissions | General Contractor | 🟢 `[MVP]` |
+| View status of quote requests | General Contractor | 🟢 `[MVP]` |
+| Receive RFQ notifications for carried materials | Supplier | 🟢 `[MVP]` |
+| Submit a detailed quote with unit price, quantity, and delivery date | Supplier | 🟢 `[MVP]` |
+| Update or withdraw a quotation before acceptance | Supplier | 🔵 `[FUTURE]` |
+| View status of submitted quotations | Supplier | 🔵 `[FUTURE]` |
+| Initiate RFQ on behalf of general contractor | Project Manager | 🔵 `[FUTURE]` |
+| Review supplier quotations | Project Manager | 🔵 `[FUTURE]` |
+
+---
+
+### 4.3 Order Management
+
+| Use Case | Actor | Tag |
+|---|---|---|
+| Convert accepted quote into a purchase order | General Contractor | 🟢 `[MVP]` |
+| View all active and past purchase orders on a dashboard | General Contractor | 🟢 `[MVP]` |
+| Receive confirmation when supplier accepts purchase order | General Contractor | 🟢 `[MVP]` |
+| Update order status | General Contractor | 🟢 `[MVP]` |
+| Receive and view all incoming purchase orders | Supplier | 🟢 `[MVP]` |
+| Confirm or reject a purchase order | Supplier | 🟢 `[MVP]` |
+| Flag order as accepted, in-progress, or fulfilled | Supplier | 🟢 `[MVP]` |
+| Attach invoice directly to a fulfilled order | Supplier | 🔵 `[FUTURE]` |
+| Review and approve purchase orders before sending to supplier | Project Manager | 🔵 `[FUTURE]` |
+| Receive alerts when order total approaches budget threshold | Project Manager | 🔵 `[FUTURE]` |
+
+---
+
+### 4.4 Delivery Tracking
+
+| Use Case | Actor | Tag |
+|---|---|---|
+| View expected delivery date and current status of every active order | General Contractor | 🟢 `[MVP]` |
+| Receive notification when delivery is confirmed or delayed | General Contractor | 🟢 `[MVP]` |
+| Log and report a delivery discrepancy | General Contractor | 🔵 `[FUTURE]` |
+| Update delivery status of an order | Supplier | 🟢 `[MVP]` |
+| Provide an estimated delivery date | Supplier | 🟢 `[MVP]` |
+| Upload proof of delivery document or photo | Supplier | 🔵 `[FUTURE]` |
+| Report delivery delays | Supplier | 🟢 `[MVP]` |
+| View consolidated pending deliveries across active projects | Project Manager | 🔵 `[FUTURE]` |
+| Track material deliveries for a project | Project Manager | 🔵 `[FUTURE]` |
+| Confirm that materials have been delivered | Project Manager | 🔵 `[FUTURE]` |
+
+---
+
+### 4.5 Document Vault
+
+| Use Case | Actor | Tag |
+|---|---|---|
+| Upload and store compliance documents per supplier | General Contractor | 🟢 `[MVP]` |
+| Receive alert when supplier certification is nearing expiration | General Contractor | 🟢 `[MVP]` |
+| Organize documents by project and supplier | General Contractor | 🟢 `[MVP]` |
+| Download stored documents | General Contractor | 🟢 `[MVP]` |
+| Upload and manage compliance documents on supplier profile | Supplier | 🟢 `[MVP]` |
+| Receive notification when uploaded document is about to expire | Supplier | 🟢 `[MVP]` |
+| View documents associated with orders | Supplier | 🔵 `[FUTURE]` |
+| Verify all suppliers have valid documentation before work begins | Project Manager | 🔵 `[FUTURE]` |
+| Search for documents by project, supplier, or document type | Project Manager | 🔵 `[FUTURE]` |
+
+---
+
+### 4.6 Future Enhancements
+
+| Use Case | Actor | Tag |
+|---|---|---|
+| Supplier performance analytics based on historical data | General Contractor | 🔵 `[FUTURE]` |
+| Advanced procurement reports | General Contractor / PM | 🔵 `[FUTURE]` |
+| System integrations with external tools | All Users | 🔵 `[FUTURE]` |
+
+---
+
 ## 4. Minimum Viable Product (MVP)
 
 Based on the business proposal, SUPPLIX includes five essential MVP features:
