@@ -359,7 +359,9 @@ Future enhancement responsibilities are preliminary and may be adjusted during l
 
 ## 7. Development Plan
 
-### Phase 1: Website Structure and Core Procurement Functions
+The website development will follow a phased implementation approach. Each phase is tagged to indicate its scope.
+
+### Phase 1: Website Structure and Core Procurement Functions 🟢 `[MVP]`
 
 - Design the homepage and authentication pages.
 - Create role-based dashboards.
@@ -367,7 +369,7 @@ Future enhancement responsibilities are preliminary and may be adjusted during l
 - Implement supplier search and profile management.
 - Develop RFQ submission and quotation comparison.
 
-### Phase 2: Order, Delivery, and Document Management
+### Phase 2: Order, Delivery, and Document Management 🟢 `[MVP]`
 
 - Implement purchase order management.
 - Enable supplier order confirmation.
@@ -375,7 +377,7 @@ Future enhancement responsibilities are preliminary and may be adjusted during l
 - Implement document upload and management.
 - Support project manager monitoring functions.
 
-### Phase 3: Future Enhancements
+### Phase 3: Future Enhancements 🔵 `[FUTURE]`
 
 - Develop supplier performance analytics (Dau Thuy Dung).
 - Develop advanced procurement reports (黃晴).
