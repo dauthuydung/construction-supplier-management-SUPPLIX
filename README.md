@@ -303,23 +303,47 @@ The following use cases are derived from the business proposal and user stories.
 
 ---
 
-## 4. Minimum Viable Product (MVP)
+## 5. Minimum Viable Product (MVP)
 
-Based on the business proposal, SUPPLIX includes five essential MVP features:
+Based on the business proposal, SUPPLIX includes five essential MVP features. Each MVP feature must satisfy the following criteria:
 
-| No. | MVP Feature | Main Functions |
-|---|---|---|
-| 1 | Supplier Directory | Search suppliers, filter results, view profiles and certifications |
-| 2 | Quote Request & Comparison | Send RFQs to multiple suppliers and compare quotations |
-| 3 | Order Management | Create purchase orders, confirm orders, and monitor order status |
-| 4 | Delivery Tracking | Monitor expected deliveries, update delivery status, and receive delay notifications |
-| 5 | Document Vault | Upload, organize, access, and manage procurement documents |
+- Useful to a contractor on their first login.
+- Not replicable with a free tool (e.g. email or spreadsheet).
+- Contributes to a complete workflow from supplier discovery through compliance.
+
+| No. | MVP Feature | Main Functions | Scope |
+|---|---|---|---|
+| 1 | Supplier Directory | Search suppliers, filter results, view profiles and certifications | 🟢 `[MVP]` |
+| 2 | Quote Request & Comparison | Send RFQs to multiple suppliers and compare quotations | 🟢 `[MVP]` |
+| 3 | Order Management | Create purchase orders, confirm orders, and monitor order status | 🟢 `[MVP]` |
+| 4 | Delivery Tracking | Monitor expected deliveries, update delivery status, and receive delay notifications | 🟢 `[MVP]` |
+| 5 | Document Vault | Upload, organize, access, and manage procurement documents | 🟢 `[MVP]` |
+
+### Full Product Features (Future Scope)
+
+The following features are planned for future development beyond the MVP:
+
+| No. | Feature | Description | Scope |
+|---|---|---|---|
+| 1 | Supplier Performance Analytics | Analyze historical supplier data including delivery performance and quality records | 🔵 `[FUTURE]` |
+| 2 | Advanced Procurement Reports | Generate detailed procurement reports and analytics | 🔵 `[FUTURE]` |
+| 3 | System Integrations | Integrate with external construction management tools | 🔵 `[FUTURE]` |
+
+### Main Procurement Workflow
+
+**MVP Workflow:**
+
+Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents
+
+**Full Product Workflow:**
+
+Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents → Analyze Supplier Performance → Generate Reports
 
 ### Main Procurement Workflow
 
 Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents
 
-## 5. Team Responsibilities
+## 6. Team Responsibilities
 
 The website planning and development tasks are divided between two team members.
 
@@ -333,7 +357,7 @@ Both members will collaborate on reviewing the website organization chart, imple
 
 Future enhancement responsibilities are preliminary and may be adjusted during later development phases.
 
-## 6. Development Plan
+## 7. Development Plan
 
 ### Phase 1: Website Structure and Core Procurement Functions
 
@@ -357,7 +381,7 @@ Future enhancement responsibilities are preliminary and may be adjusted during l
 - Develop advanced procurement reports (黃晴).
 - Implement additional system integrations (Both Members).
 
-## 7. Project Status
+## 8. Project Status
 
 Current stage: Website planning and organization design.
 
