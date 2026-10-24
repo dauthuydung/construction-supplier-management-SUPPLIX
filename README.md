@@ -214,7 +214,8 @@ The following use cases are derived from the business proposal and user stories.
 
 | Use Case | Actor | Tag |
 |---|---|---|
-| Search and filter suppliers by material type, location, and rating | General Contractor | 🟢 `[MVP]` |
+
+| Search and filter suppliers by material type and location | General Contractor | 🟢 `[MVP]` |
 | View supplier profile with certifications and contact details | General Contractor | 🟢 `[MVP]` |
 | Save suppliers to a preferred list | General Contractor | 🔵 `[FUTURE]` |
 | View supplier's previous transaction history | General Contractor | 🔵 `[FUTURE]` |
