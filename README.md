@@ -60,12 +60,12 @@ flowchart TB
         N ~~~ O
     end
 
-    subgraph PM["Project Manager Functions"]
+    subgraph PM["Project Manager Functions - MVP"]
         direction TB
-        P["Review Suppliers & Quotations"]
-        Q["Monitor Purchase Orders"]
-        R["Track Material Deliveries"]
-        S["Access Procurement Documents"]
+        P["View Quotations for Assigned Projects"]
+        Q["View Purchase Orders for Assigned Projects"]
+        R["Track Deliveries for Assigned Projects"]
+        S["View Documents for Assigned Projects"]
 
         P ~~~ Q
         Q ~~~ R
