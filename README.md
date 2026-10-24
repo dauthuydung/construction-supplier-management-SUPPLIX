@@ -338,6 +338,16 @@ The following features are planned for future development beyond the MVP:
 
 Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents
 
+### MVP Notification Mechanism
+
+In the MVP, notifications and alerts are generated from existing system data and displayed within the relevant user dashboards.
+
+- Order confirmations are reflected through purchase order status updates.
+- Delivery alerts are generated based on delivery status changes and estimated delivery dates.
+- Document expiration alerts are generated based on document expiry dates.
+
+A dedicated notification history, email notification service, and push notification system are considered Future enhancements. Under the proposed dashboard-based alert mechanism, a separate Notification entity is not necessary for the current MVP data model.
+
 ## 6. Team Responsibilities
 
 The website planning and development tasks are divided between two team members.
