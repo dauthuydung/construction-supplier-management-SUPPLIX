@@ -2,14 +2,18 @@
 
 ## Overview
 
-This document defines the proposed relational data model, designed toward Third Normal Form (3NF), for SUPPLIX, a construction material supplier management web application. It supports the five MVP features: Supplier Directory, Quote Request & Comparison, Order Management, Delivery Tracking, and Document Vault. The model separates shared material specifications from supplier-specific listings, models multi-item quotations, and avoids storing project and supplier information redundantly in purchase orders.
+This document defines the proposed relational data model, designed following Third Normal Form (3NF) principles, for SUPPLIX, a construction material supplier management web application. It supports the five MVP features: Supplier Directory, Quote Request & Comparison, Order Management, Delivery Tracking, and Document Vault.
+
+The model separates shared material specifications from supplier-specific listings, supports multi-item quotation requests and quotations, and avoids storing project and supplier information redundantly in purchase orders.
 
 ## Scope Legend
 
 - 🟢 **MVP** — Required for the initial MVP release.
 - 🔵 **FUTURE** — Planned for later development.
-- **PK** — Primary key; **FK** — Foreign key; **UNIQUE** — Unique constraint.
-- Cardinalities describe allowable stored records. Requirements that depend on workflow state (such as a submitted RFQ having items) are specified separately as business rules.
+- **PK** — Primary key.
+- **FK** — Foreign key.
+- **UNIQUE** — Unique constraint.
+- Cardinalities describe allowable stored records. Requirements that depend on workflow state, such as an issued purchase order having at least one item, are specified separately as business rules.
 
 ## Normalization Notes (3NF)
 
@@ -40,6 +44,7 @@ These are design-level normalization decisions. Database implementation must add
 ### 🟢 MVP Entities
 
 #### User
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `user_id` | INT | PK | Unique user identifier |
@@ -51,6 +56,7 @@ These are design-level normalization decisions. Database implementation must add
 | `created_at` | DATETIME | NOT NULL | Registration timestamp |
 
 #### Project
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `project_id` | INT | PK | Unique project identifier |
@@ -62,6 +68,7 @@ These are design-level normalization decisions. Database implementation must add
 | `end_date` | DATE | | Project end date |
 
 #### ProjectMember
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `project_id` | INT | PK, FK → Project | Assigned project |
@@ -71,6 +78,7 @@ These are design-level normalization decisions. Database implementation must add
 **Primary Key:** (`project_id`, `user_id`)
 
 #### Supplier
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `supplier_id` | INT | PK | Unique supplier identifier |
@@ -83,6 +91,7 @@ These are design-level normalization decisions. Database implementation must add
 | `created_at` | DATETIME | NOT NULL | Profile creation timestamp |
 
 #### Material
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `material_id` | INT | PK | Unique material specification identifier |
@@ -92,6 +101,7 @@ These are design-level normalization decisions. Database implementation must add
 | `specification` | TEXT | | Common material specification |
 
 #### SupplierMaterial
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `supplier_material_id` | INT | PK | Unique supplier listing identifier |
@@ -103,6 +113,7 @@ These are design-level normalization decisions. Database implementation must add
 **Constraint:** `UNIQUE(supplier_id, material_id)` for one current listing per supplier and material specification.
 
 #### RFQ
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `rfq_id` | INT | PK | Unique RFQ identifier |
@@ -113,6 +124,7 @@ These are design-level normalization decisions. Database implementation must add
 | `created_at` | DATETIME | NOT NULL | Creation timestamp |
 
 #### RFQ_Supplier
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `rfq_id` | INT | PK, FK → RFQ | Related RFQ |
@@ -123,6 +135,7 @@ These are design-level normalization decisions. Database implementation must add
 **Primary Key:** (`rfq_id`, `supplier_id`)
 
 #### RFQ_Item
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `rfq_item_id` | INT | PK | Unique requested line identifier |
@@ -132,6 +145,7 @@ These are design-level normalization decisions. Database implementation must add
 | `required_date` | DATE | | Required delivery date |
 
 #### Quotation
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `quotation_id` | INT | PK | Unique quotation identifier |
@@ -141,9 +155,15 @@ These are design-level normalization decisions. Database implementation must add
 | `status` | ENUM | NOT NULL | pending / accepted / rejected |
 | `created_at` | DATETIME | NOT NULL | Submission timestamp |
 
-**Constraints:** `UNIQUE(rfq_id, supplier_id)`; `(rfq_id, supplier_id)` must also reference an existing `RFQ_Supplier` invitation. At most one quotation per RFQ may have `status = accepted` in the MVP. This conditional uniqueness requires an appropriate database index, trigger, or transactional validation.
+**Constraints:**
+
+- `UNIQUE(rfq_id, supplier_id)` ensures that each supplier submits at most one quotation per RFQ.
+- `(rfq_id, supplier_id)` must reference an existing `RFQ_Supplier` invitation.
+- At most one quotation per RFQ may have `status = accepted` in the MVP.
+- Conditional uniqueness must be enforced using an appropriate database index, trigger, or transactional validation.
 
 #### Quotation_Item
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `quotation_item_id` | INT | PK | Unique quoted line identifier |
@@ -156,17 +176,19 @@ These are design-level normalization decisions. Database implementation must add
 **Constraint:** `UNIQUE(quotation_id, rfq_item_id)`; the referenced RFQ item must belong to the quotation's RFQ.
 
 #### PurchaseOrder
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `po_id` | INT | PK | Unique purchase order identifier |
 | `quotation_id` | INT | NOT NULL, UNIQUE, FK → Quotation | Accepted quotation used for this PO |
 | `created_by` | INT | NOT NULL, FK → User | Project-owning GC in MVP; additional authorized roles are FUTURE |
-| `status` | ENUM | NOT NULL | pending / accepted / rejected / in_progress / fulfilled |
+| `status` | ENUM | NOT NULL | draft / pending / accepted / rejected / in_progress / fulfilled |
 | `created_at` | DATETIME | NOT NULL | Creation timestamp |
 
-**Note:** The PO's project is obtained through `Quotation → RFQ → Project`; its supplier is obtained through `Quotation → Supplier`. `pending` includes an order being prepared or awaiting supplier response; a rejected order remains `rejected` and cannot proceed to fulfillment without a new valid approval process.
+**Note:** The PO's project is obtained through `Quotation → RFQ → Project`; its supplier is obtained through `Quotation → Supplier`. `draft` represents an order being prepared, while `pending` represents an issued order awaiting supplier confirmation. A rejected order cannot proceed to fulfillment without a new valid approval process.
 
 #### PO_Item
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `po_item_id` | INT | PK | Unique purchase order line identifier |
@@ -178,6 +200,7 @@ These are design-level normalization decisions. Database implementation must add
 **Constraint:** `UNIQUE(po_id, quotation_item_id)`; the quotation item must belong to the PO's accepted quotation. `subtotal = quantity × agreed_unit_price` is calculated when needed.
 
 #### Delivery
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `delivery_id` | INT | PK | Unique delivery identifier |
@@ -189,6 +212,7 @@ These are design-level normalization decisions. Database implementation must add
 | `updated_at` | DATETIME | NOT NULL | Last update timestamp |
 
 #### Document
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `document_id` | INT | PK | Unique document identifier |
@@ -207,6 +231,7 @@ These are design-level normalization decisions. Database implementation must add
 ### 🔵 Future Entities
 
 #### SupplierReview
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `review_id` | INT | PK | Unique review identifier |
@@ -217,6 +242,7 @@ These are design-level normalization decisions. Database implementation must add
 | `created_at` | DATETIME | NOT NULL | Review timestamp |
 
 #### Report
+
 | Attribute | Type | Constraint | Description |
 |---|---|---|---|
 | `report_id` | INT | PK | Unique report identifier |
@@ -228,13 +254,16 @@ These are design-level normalization decisions. Database implementation must add
 
 #### SupplierPerformance (Future Reporting View)
 
-`SupplierPerformance` is a **derived reporting view**, not a base table. It may expose `supplier_id`, `total_orders`, `completed_orders`, `on_time_delivery_rate`, and other metrics calculated from `PurchaseOrder` and `Delivery`. A quality-issue metric requires an additional, explicitly defined quality-issue data source in a future release; it cannot be reliably calculated from the current MVP schema.
+`SupplierPerformance` is a **derived reporting view**, not a base table. It may expose `supplier_id`, `total_orders`, `completed_orders`, `on_time_delivery_rate`, and other metrics calculated from `PurchaseOrder` and `Delivery`.
+
+A quality-issue metric requires an additional, explicitly defined quality-issue data source in a future release; it cannot be reliably calculated from the current MVP schema.
 
 ---
 
 ## Business Rules
 
 ### User & Access
+
 - Each User has exactly one role: GC, Supplier, or PM.
 - A Supplier-role User must have exactly one Supplier profile once registration is complete; GC and PM users must not have Supplier profiles. Registration must create the linked records atomically or prevent incomplete accounts from becoming active.
 - Each Supplier profile belongs to exactly one User account.
@@ -242,17 +271,21 @@ These are design-level normalization decisions. Database implementation must add
 - `ProjectMember.user_id` must reference a User with the PM role.
 
 ### Project
+
 - Each Project is owned by exactly one GC.
 - A GC can own multiple Projects.
 - Project start and end dates must be chronologically consistent when both are supplied.
 
 ### Supplier & Material
+
 - A Supplier may list multiple Materials through `SupplierMaterial`.
 - A Material specification may be offered by multiple Suppliers.
 - Each SupplierMaterial listing belongs to exactly one Supplier and one Material.
-- Supplier verification requires supporting credentials and an authorized review decision; uploading credentials alone never grants a verified badge. In the MVP, credential documents can be stored in `Document`, and `Supplier.is_verified` is updated by an authorized administrative/back-office process; no separate admin user role or verification-history table is modeled.
+- Supplier verification requires supporting credentials and an authorized review decision; uploading credentials alone never grants a verified badge.
+- In the MVP, credential documents can be stored in `Document`, and `Supplier.is_verified` is updated by an authorized administrative/back-office process; no separate admin user role or verification-history table is modeled.
 
 ### RFQ & Quotation
+
 - Each RFQ belongs to one Project. In the MVP, only the GC who owns that Project may create or send its RFQs; PM-initiated RFQs are FUTURE.
 - A draft RFQ may have no items or invited suppliers; before it is opened or sent, it must have at least one `RFQ_Item` and at least one invited supplier.
 - An RFQ may be sent to multiple Suppliers; invitations are unique per `(rfq_id, supplier_id)`.
@@ -264,35 +297,48 @@ These are design-level normalization decisions. Database implementation must add
 - In this MVP workflow, at most one Quotation can be accepted for an RFQ; acceptance must be enforced atomically. Partial or multi-supplier awards would require additional design.
 
 ### Purchase Order
+
 - Each PurchaseOrder is based on exactly one accepted Quotation and is created by the owning GC in the MVP.
 - An accepted Quotation can produce at most one PurchaseOrder.
 - The Project and Supplier of a PurchaseOrder are determined by its referenced Quotation and RFQ.
-- A pending PurchaseOrder may temporarily have no PO_Item while being prepared; it must have at least one PO_Item before being issued to a Supplier.
+- A draft PurchaseOrder may temporarily have no PO_Item. Before transitioning to `pending` and being issued to a Supplier, it must contain at least one PO_Item.
 - Each PO_Item must reference a Quotation_Item belonging to the PO's Quotation.
-- Ordered quantities must be positive and must not exceed the accepted quoted quantities unless the quotation is revised. The Supplier may accept or reject an issued PO; only accepted orders may move to `in_progress` and then `fulfilled`.
+- Ordered quantities must be positive and must not exceed the accepted quoted quantities unless the quotation is revised.
+- The Supplier may accept or reject an issued PO. Only accepted orders may move to `in_progress` and then `fulfilled`.
+- A rejected PO cannot be moved directly to `in_progress` or `fulfilled`.
 - `PO_Item.agreed_unit_price` records the agreed price for that order line; subtotals and totals are calculated from PO items.
 
 ### Delivery
+
 - Each PurchaseOrder can have zero or one Delivery record while it is being prepared; once fulfillment begins, a Delivery record is required.
-- `Delivery.po_id` is unique, preventing multiple Delivery records for the same PO in the MVP. Split shipments and multiple deliveries per PO are outside the MVP scope.
+- `Delivery.po_id` is unique, preventing multiple Delivery records for the same PO in the MVP.
+- Split shipments and multiple deliveries per PO are outside the MVP scope.
 - The fulfilling Supplier is responsible for delivery status updates.
-- Delayed deliveries should include a delay reason; delivered records should include an actual delivery date. Dashboard alerts are derived from delivery statuses and estimated dates; no Notification table is required in the MVP.
+- Delayed deliveries should include a delay reason; delivered records should include an actual delivery date.
+- Dashboard alerts are derived from delivery statuses and estimated dates; no Notification table is required in the MVP.
 
 ### Document
+
 - A Document must be linked to at least one Project, Supplier, or PurchaseOrder.
-- A Document may be linked to more than one of these entities when the references are mutually consistent. If `po_id` and `project_id` are both provided, the Project must match the PO's Project; if `po_id` and `supplier_id` are both provided, the Supplier must match the PO's Supplier.
+- A Document may be linked to more than one of these entities when the references are mutually consistent.
+- If `po_id` and `project_id` are both provided, the Project must match the PO's Project.
+- If `po_id` and `supplier_id` are both provided, the Supplier must match the PO's Supplier.
 - Only authorized users may upload or access documents associated with a project or supplier.
-- Expiry alerts apply only to documents with a specified expiry date. Dashboard alerts are calculated from stored expiry dates; notification history, email, and push delivery are FUTURE.
+- Expiry alerts apply only to documents with a specified expiry date.
+- Dashboard alerts are calculated from stored expiry dates; notification history, email, and push delivery are FUTURE.
 
 ### Future Rules
+
 - A SupplierReview can be written only by a GC with at least one completed order involving the reviewed Supplier.
 - Supplier performance metrics are calculated from procurement and delivery records; additional quality metrics require a defined quality-issue data source.
 - Reports can be generated by authorized GC or PM users.
 
 ### Implementation Constraints
+
 - Enforce all PK, FK, NOT NULL, UNIQUE, and CHECK constraints in the database where supported.
 - Validate role-specific restrictions, invited-supplier access, quotation/RFQ item consistency, at-most-one-accepted-quotation rules, PO/quotation item consistency, and cross-entity ownership using transactions, application logic, database constraints, or triggers as appropriate.
 - Positive quantities and nonnegative prices should be enforced for RFQ, quotation, supplier listing, and PO items.
+- Validate workflow-dependent requirements when records change status, including opening RFQs, accepting quotations, issuing purchase orders, and completing deliveries.
 
 ---
 
@@ -318,6 +364,7 @@ erDiagram
         string phone
         datetime created_at
     }
+
     Project {
         int project_id PK
         int owner_user_id FK
@@ -327,14 +374,16 @@ erDiagram
         date start_date
         date end_date
     }
+
     ProjectMember {
-        int project_id PK, FK
-        int user_id PK, FK
+        int project_id PK,FK
+        int user_id PK,FK
         datetime assigned_at
     }
+
     Supplier {
         int supplier_id PK
-        int user_id FK, UK
+        int user_id FK,UK
         string company_name
         string description
         string location
@@ -342,6 +391,7 @@ erDiagram
         boolean is_verified
         datetime created_at
     }
+
     Material {
         int material_id PK
         string name
@@ -349,6 +399,7 @@ erDiagram
         string unit
         string specification
     }
+
     SupplierMaterial {
         int supplier_material_id PK
         int supplier_id FK
@@ -356,6 +407,7 @@ erDiagram
         decimal unit_price
         boolean stock_available
     }
+
     RFQ {
         int rfq_id PK
         int project_id FK
@@ -364,12 +416,14 @@ erDiagram
         string status
         datetime created_at
     }
+
     RFQ_Supplier {
-        int rfq_id PK, FK
-        int supplier_id PK, FK
+        int rfq_id PK,FK
+        int supplier_id PK,FK
         string status
         datetime invited_at
     }
+
     RFQ_Item {
         int rfq_item_id PK
         int rfq_id FK
@@ -377,6 +431,7 @@ erDiagram
         decimal quantity
         date required_date
     }
+
     Quotation {
         int quotation_id PK
         int rfq_id FK
@@ -385,6 +440,7 @@ erDiagram
         string status
         datetime created_at
     }
+
     Quotation_Item {
         int quotation_item_id PK
         int quotation_id FK
@@ -393,13 +449,15 @@ erDiagram
         decimal quantity
         date delivery_date
     }
+
     PurchaseOrder {
         int po_id PK
-        int quotation_id FK, UK
+        int quotation_id FK,UK
         int created_by FK
         string status
         datetime created_at
     }
+
     PO_Item {
         int po_item_id PK
         int po_id FK
@@ -407,15 +465,17 @@ erDiagram
         decimal quantity
         decimal agreed_unit_price
     }
+
     Delivery {
         int delivery_id PK
-        int po_id FK, UK
+        int po_id FK,UK
         string status
         date estimated_date
         date actual_date
         string delay_reason
         datetime updated_at
     }
+
     Document {
         int document_id PK
         int project_id FK
@@ -428,6 +488,7 @@ erDiagram
         date expiry_date
         datetime created_at
     }
+
     SupplierReview {
         int review_id PK
         int supplier_id FK
@@ -436,6 +497,7 @@ erDiagram
         string comment
         datetime created_at
     }
+
     Report {
         int report_id PK
         int user_id FK
@@ -446,35 +508,46 @@ erDiagram
     }
 
     %% MVP Relationships
+
     User ||--o{ Project : "owns"
     User ||--o{ ProjectMember : "assigned as PM"
     Project ||--o{ ProjectMember : "has PMs"
     User ||--o| Supplier : "has supplier profile"
+
     Supplier ||--o{ SupplierMaterial : "lists"
     Material ||--o{ SupplierMaterial : "offered as"
+
     Project ||--o{ RFQ : "has"
     User ||--o{ RFQ : "creates"
     RFQ ||--o{ RFQ_Item : "contains"
     Material ||--o{ RFQ_Item : "requested in"
+
     RFQ ||--o{ RFQ_Supplier : "invites"
     Supplier ||--o{ RFQ_Supplier : "receives"
+
     RFQ ||--o{ Quotation : "receives"
     Supplier ||--o{ Quotation : "submits"
     Quotation ||--|{ Quotation_Item : "includes"
     RFQ_Item ||--o{ Quotation_Item : "quoted by"
+
     Quotation ||--o| PurchaseOrder : "converts to"
     User ||--o{ PurchaseOrder : "creates"
+
     PurchaseOrder ||--o{ PO_Item : "contains"
     Quotation_Item ||--o{ PO_Item : "ordered as"
+
     PurchaseOrder ||--o| Delivery : "has"
+
     Project |o--o{ Document : "related to"
     Supplier |o--o{ Document : "related to"
     PurchaseOrder |o--o{ Document : "related to"
     User ||--o{ Document : "uploads"
 
     %% Future Relationships
+
     Supplier ||--o{ SupplierReview : "receives"
     User ||--o{ SupplierReview : "writes"
+
     User ||--o{ Report : "generates"
     Project |o--o{ Report : "covers"
 ```
