@@ -191,7 +191,7 @@ The website development will follow a phased implementation approach.
 - Delivery tracking and notifications
 - Procurement document management
 - Supplier document uploads
-- Project manager monitoring functions
+- Project manager read-only access to quotations, purchase orders, deliveries, and documents for assigned projects
 
 ### Low Priority - Blue
 
@@ -370,13 +370,14 @@ The website development will follow a phased implementation approach. Each phase
 - Enable supplier order confirmation.
 - Develop delivery tracking and notifications.
 - Implement document upload and management.
-- Support project manager monitoring functions.
+- Implement read-only project manager access to quotations, purchase orders, deliveries, and documents for assigned projects.
 
 ### Phase 3: Future Enhancements 🔵 `[FUTURE]`
 
 - Develop supplier performance analytics (Dau Thuy Dung).
 - Develop advanced procurement reports (黃晴).
 - Implement additional system integrations (Both Members).
+- Extend project manager capabilities with purchase order approval, budget alerts, delivery confirmation, and advanced compliance verification.
 
 ## 8. Project Status
 
