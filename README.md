@@ -383,17 +383,12 @@ This repository documents the proposed website structure, implementation priorit
 
 ## 9. Data Model Documentation
 
-The SUPPLIX database design is documented in [ERModel.md](ERModel.md).
+The SUPPLIX ER model is documented in [ERModel.md](ERModel.md).
 
-The ER model describes:
-
-- Entities and attributes supporting the proposed system.
-- Primary keys and foreign keys.
+The ER model includes:
+- Entity definitions and attributes supporting the proposed system.
+- Primary keys (PK) and foreign keys (FK).
 - Entity relationships and cardinality constraints.
-- Business rules governing procurement workflows.
-- Third Normal Form (3NF) normalization.
-- MVP and Future scope classifications.
-
-The data model supports the five core procurement features:
-Supplier Directory, Quote Request & Comparison, Order Management,
-Delivery Tracking, and Document Vault.
+- Business rules governing user roles, supplier management, and construction material procurement processes.
+- Database normalization to Third Normal Form (3NF).
+- Clear classification of MVP and Future entities.
