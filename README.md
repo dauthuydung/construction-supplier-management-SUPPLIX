@@ -380,3 +380,20 @@ The website development will follow a phased implementation approach. Each phase
 Current stage: Website planning and organization design.
 
 This repository documents the proposed website structure, implementation priorities, and team responsibilities before system development begins.
+
+## 9. Data Model Documentation
+
+The SUPPLIX database design is documented in [ERModel.md](ERModel.md).
+
+The ER model describes:
+
+- Entities and attributes supporting the proposed system.
+- Primary keys and foreign keys.
+- Entity relationships and cardinality constraints.
+- Business rules governing procurement workflows.
+- Third Normal Form (3NF) normalization.
+- MVP and Future scope classifications.
+
+The data model supports the five core procurement features:
+Supplier Directory, Quote Request & Comparison, Order Management,
+Delivery Tracking, and Document Vault.
