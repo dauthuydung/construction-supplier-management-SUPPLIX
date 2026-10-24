@@ -11,7 +11,7 @@ The platform connects general contractors, material suppliers, and project manag
 
 - **General Contractor (GC):** Searches for suppliers, requests and compares quotations, manages purchase orders, and monitors deliveries.
 - **Supplier:** Maintains company information, responds to quotation requests, confirms orders, updates delivery status, and uploads documents.
-- **Project Manager (PM):** Reviews suppliers and quotations, monitors purchase orders, tracks deliveries, and accesses procurement documents.
+- **Project Manager (PM):** Views quotations, purchase orders, deliveries, and procurement documents for assigned projects, with advanced management functions planned for future development.
 
 ## 2. Website Organization Chart
 
@@ -203,7 +203,7 @@ Future enhancements may include:
 
 ## 4. Use Cases
 
-The following use cases are derived from the business proposal and user stories. Each use case is tagged to indicate whether it is part of the **MVP** or the **Full Product** scope.
+The following use cases are derived from the business proposal and user stories. Each use case is tagged to indicate whether it is part of the **MVP** or **Future development** scope.
 
 - 🟢 `[MVP]` — Required for the initial launch
 - 🔵 `[FUTURE]` — Planned for future development
@@ -220,7 +220,7 @@ The following use cases are derived from the business proposal and user stories.
 | Save suppliers to a preferred list | General Contractor | 🔵 `[FUTURE]` |
 | View supplier's previous transaction history | General Contractor | 🔵 `[FUTURE]` |
 | Create and manage a public supplier profile | Supplier | 🟢 `[MVP]` |
-| Receive a verified badge after submitting credentials | Supplier | 🟢 `[MVP]` |
+| Receive a verified badge after successful credential verification | Supplier | 🟢 `[MVP]` |
 | Update contact information and service area | Supplier | 🟢 `[MVP]` |
 | Browse and shortlist suppliers for a project | Project Manager | 🔵 `[FUTURE]` |
 | Organize suppliers by material category | Project Manager | 🔵 `[FUTURE]` |
@@ -235,7 +235,7 @@ The following use cases are derived from the business proposal and user stories.
 | Compare quotes side by side on price, lead time, and delivery terms | General Contractor | 🟢 `[MVP]` |
 | Set a deadline for quote submissions | General Contractor | 🟢 `[MVP]` |
 | View status of quote requests | General Contractor | 🟢 `[MVP]` |
-| View incoming RFQ invitations for supplied materials | Supplier | 🟢 `[MVP]` |
+| View RFQ invitations addressed to the supplier | Supplier | 🟢 `[MVP]` |
 | Submit a detailed quote with unit price, quantity, and delivery date | Supplier | 🟢 `[MVP]` |
 | Update or withdraw a quotation before acceptance | Supplier | 🔵 `[FUTURE]` |
 | View status of submitted quotations | Supplier | 🔵 `[FUTURE]` |
