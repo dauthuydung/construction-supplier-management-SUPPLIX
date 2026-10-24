@@ -240,7 +240,7 @@ The following use cases are derived from the business proposal and user stories.
 | Update or withdraw a quotation before acceptance | Supplier | 🔵 `[FUTURE]` |
 | View status of submitted quotations | Supplier | 🔵 `[FUTURE]` |
 | Initiate RFQ on behalf of general contractor | Project Manager | 🔵 `[FUTURE]` |
-| Review supplier quotations | Project Manager | 🔵 `[FUTURE]` |
+| View supplier quotations for assigned projects | Project Manager | 🟢 `[MVP]` |
 
 ---
 
@@ -258,6 +258,7 @@ The following use cases are derived from the business proposal and user stories.
 | Attach invoice directly to a fulfilled order | Supplier | 🔵 `[FUTURE]` |
 | Review and approve purchase orders before sending to supplier | Project Manager | 🔵 `[FUTURE]` |
 | Receive alerts when order total approaches budget threshold | Project Manager | 🔵 `[FUTURE]` |
+| View purchase orders for assigned projects | Project Manager | 🟢 `[MVP]` |
 
 ---
 
@@ -273,7 +274,7 @@ The following use cases are derived from the business proposal and user stories.
 | Upload proof of delivery document or photo | Supplier | 🔵 `[FUTURE]` |
 | Report delivery delays | Supplier | 🟢 `[MVP]` |
 | View consolidated pending deliveries across active projects | Project Manager | 🔵 `[FUTURE]` |
-| Track material deliveries for a project | Project Manager | 🔵 `[FUTURE]` |
+| Track material deliveries for assigned projects | Project Manager | 🟢 `[MVP]` |
 | Confirm that materials have been delivered | Project Manager | 🔵 `[FUTURE]` |
 
 ---
@@ -291,6 +292,7 @@ The following use cases are derived from the business proposal and user stories.
 | View documents associated with orders | Supplier | 🔵 `[FUTURE]` |
 | Verify all suppliers have valid documentation before work begins | Project Manager | 🔵 `[FUTURE]` |
 | Search for documents by project, supplier, or document type | Project Manager | 🔵 `[FUTURE]` |
+| View procurement documents for assigned projects | Project Manager | 🟢 `[MVP]` |    
 
 ---
 
