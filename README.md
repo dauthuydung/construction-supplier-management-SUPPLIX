@@ -182,7 +182,7 @@ The website development will follow a phased implementation approach.
 - RFQ creation and submission
 - Quotation comparison
 - Supplier profile management
-- Supplier quotation responses
+- Supplier RFQ invitation viewing and quotation submission
 
 ### Medium Priority - Yellow
 
@@ -235,7 +235,7 @@ The following use cases are derived from the business proposal and user stories.
 | Compare quotes side by side on price, lead time, and delivery terms | General Contractor | 🟢 `[MVP]` |
 | Set a deadline for quote submissions | General Contractor | 🟢 `[MVP]` |
 | View status of quote requests | General Contractor | 🟢 `[MVP]` |
-| Receive RFQ notifications for carried materials | Supplier | 🟢 `[MVP]` |
+| View incoming RFQ invitations for supplied materials | Supplier | 🟢 `[MVP]` |
 | Submit a detailed quote with unit price, quantity, and delivery date | Supplier | 🟢 `[MVP]` |
 | Update or withdraw a quotation before acceptance | Supplier | 🔵 `[FUTURE]` |
 | View status of submitted quotations | Supplier | 🔵 `[FUTURE]` |
@@ -362,7 +362,7 @@ The website development will follow a phased implementation approach. Each phase
 - Create role-based dashboards.
 - Develop the supplier directory.
 - Implement supplier search and profile management.
-- Develop RFQ submission and quotation comparison.
+- Develop RFQ creation, supplier invitation viewing, quotation submission, and quotation comparison.
 
 ### Phase 2: Order, Delivery, and Document Management 🟢 `[MVP]`
 
