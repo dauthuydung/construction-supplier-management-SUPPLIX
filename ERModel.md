@@ -351,11 +351,11 @@ A quality-issue metric requires an additional, explicitly defined quality-issue 
 | 🟢 **MVP** | `User` `Project` `ProjectMember` `Supplier` `Material` `SupplierMaterial` `RFQ` `RFQ_Supplier` `RFQ_Item` `Quotation` `Quotation_Item` `PurchaseOrder` `PO_Item` `Delivery` `Document` |
 | 🔵 **FUTURE** | `SupplierReview` `Report`; `SupplierPerformance` (derived reporting view) |
 
-> **Note:** MVP and Future components are distinguished by the scope summary above and the corresponding Entity Definitions sections. The Mermaid diagram represents base tables; the future derived reporting view is described separately.
+> **Scope Legend:** Entities labeled `(MVP)` and `(FUTURE)` in the ER Diagram indicate the development scope. All attributes within MVP entities belong to the MVP scope, while all attributes within FUTURE entities are reserved for future development. `SupplierPerformance` is a FUTURE reporting view and is not represented as a base table.
 
 ```mermaid
 erDiagram
-    User {
+    User["User (MVP)"] {
         int user_id PK
         string name
         string email UK
@@ -365,7 +365,7 @@ erDiagram
         datetime created_at
     }
 
-    Project {
+    Project["Project (MVP)"] {
         int project_id PK
         int owner_user_id FK
         string name
@@ -375,13 +375,13 @@ erDiagram
         date end_date
     }
 
-    ProjectMember {
+    ProjectMember["ProjectMember (MVP)"] {
         int project_id PK,FK
         int user_id PK,FK
         datetime assigned_at
     }
 
-    Supplier {
+    Supplier["Supplier (MVP)"] {
         int supplier_id PK
         int user_id FK,UK
         string company_name
@@ -392,7 +392,7 @@ erDiagram
         datetime created_at
     }
 
-    Material {
+    Material["Material (MVP)"] {
         int material_id PK
         string name
         string category
@@ -400,7 +400,7 @@ erDiagram
         string specification
     }
 
-    SupplierMaterial {
+    SupplierMaterial["SupplierMaterial (MVP)"] {
         int supplier_material_id PK
         int supplier_id FK
         int material_id FK
@@ -408,7 +408,7 @@ erDiagram
         boolean stock_available
     }
 
-    RFQ {
+    RFQ["RFQ (MVP)"] {
         int rfq_id PK
         int project_id FK
         int created_by FK
@@ -417,14 +417,14 @@ erDiagram
         datetime created_at
     }
 
-    RFQ_Supplier {
+    RFQ_Supplier["RFQ_Supplier (MVP)"] {
         int rfq_id PK,FK
         int supplier_id PK,FK
         string status
         datetime invited_at
     }
 
-    RFQ_Item {
+    RFQ_Item["RFQ_Item (MVP)"] {
         int rfq_item_id PK
         int rfq_id FK
         int material_id FK
@@ -432,7 +432,7 @@ erDiagram
         date required_date
     }
 
-    Quotation {
+    Quotation["Quotation (MVP)"] {
         int quotation_id PK
         int rfq_id FK
         int supplier_id FK
@@ -441,7 +441,7 @@ erDiagram
         datetime created_at
     }
 
-    Quotation_Item {
+    Quotation_Item["Quotation_Item (MVP)"] {
         int quotation_item_id PK
         int quotation_id FK
         int rfq_item_id FK
@@ -450,7 +450,7 @@ erDiagram
         date delivery_date
     }
 
-    PurchaseOrder {
+    PurchaseOrder["PurchaseOrder (MVP)"] {
         int po_id PK
         int quotation_id FK,UK
         int created_by FK
@@ -458,7 +458,7 @@ erDiagram
         datetime created_at
     }
 
-    PO_Item {
+    PO_Item["PO_Item (MVP)"] {
         int po_item_id PK
         int po_id FK
         int quotation_item_id FK
@@ -466,7 +466,7 @@ erDiagram
         decimal agreed_unit_price
     }
 
-    Delivery {
+    Delivery["Delivery (MVP)"] {
         int delivery_id PK
         int po_id FK,UK
         string status
@@ -476,7 +476,7 @@ erDiagram
         datetime updated_at
     }
 
-    Document {
+    Document["Document (MVP)"] {
         int document_id PK
         int project_id FK
         int supplier_id FK
@@ -489,7 +489,7 @@ erDiagram
         datetime created_at
     }
 
-    SupplierReview {
+    SupplierReview["SupplierReview (FUTURE)"] {
         int review_id PK
         int supplier_id FK
         int user_id FK
@@ -498,7 +498,7 @@ erDiagram
         datetime created_at
     }
 
-    Report {
+    Report["Report (FUTURE)"] {
         int report_id PK
         int user_id FK
         int project_id FK
