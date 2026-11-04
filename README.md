@@ -11,7 +11,7 @@ The platform connects general contractors, material suppliers, and project manag
 
 - **General Contractor (GC):** Searches for suppliers, requests and compares quotations, manages purchase orders, and monitors deliveries.
 - **Supplier:** Maintains company information, responds to quotation requests, confirms orders, updates delivery status, and uploads documents.
-- **Project Manager (PM):** Reviews suppliers and quotations, monitors purchase orders, tracks deliveries, and accesses procurement documents.
+- **Project Manager (PM):** Views quotations, purchase orders, deliveries, and procurement documents for assigned projects, with advanced management functions planned for future development.
 
 ## 2. Website Organization Chart
 
@@ -60,12 +60,12 @@ flowchart TB
         N ~~~ O
     end
 
-    subgraph PM["Project Manager Functions"]
+    subgraph PM["Project Manager Functions - MVP"]
         direction TB
-        P["Review Suppliers & Quotations"]
-        Q["Monitor Purchase Orders"]
-        R["Track Material Deliveries"]
-        S["Access Procurement Documents"]
+        P["View Quotations for Assigned Projects"]
+        Q["View Purchase Orders for Assigned Projects"]
+        R["Track Deliveries for Assigned Projects"]
+        S["View Documents for Assigned Projects"]
 
         P ~~~ Q
         Q ~~~ R
@@ -182,7 +182,7 @@ The website development will follow a phased implementation approach.
 - RFQ creation and submission
 - Quotation comparison
 - Supplier profile management
-- Supplier quotation responses
+- Supplier RFQ invitation viewing and quotation submission
 
 ### Medium Priority - Yellow
 
@@ -191,7 +191,7 @@ The website development will follow a phased implementation approach.
 - Delivery tracking and notifications
 - Procurement document management
 - Supplier document uploads
-- Project manager monitoring functions
+- Project manager read-only access to quotations, purchase orders, deliveries, and documents for assigned projects
 
 ### Low Priority - Blue
 
@@ -203,7 +203,7 @@ Future enhancements may include:
 
 ## 4. Use Cases
 
-The following use cases are derived from the business proposal and user stories. Each use case is tagged to indicate whether it is part of the **MVP** or the **Full Product** scope.
+The following use cases are derived from the business proposal and user stories. Each use case is tagged to indicate whether it is part of the **MVP** or **Future development** scope.
 
 - 🟢 `[MVP]` — Required for the initial launch
 - 🔵 `[FUTURE]` — Planned for future development
@@ -214,12 +214,13 @@ The following use cases are derived from the business proposal and user stories.
 
 | Use Case | Actor | Tag |
 |---|---|---|
-| Search and filter suppliers by material type, location, and rating | General Contractor | 🟢 `[MVP]` |
+
+| Search and filter suppliers by material type and location | General Contractor | 🟢 `[MVP]` |
 | View supplier profile with certifications and contact details | General Contractor | 🟢 `[MVP]` |
 | Save suppliers to a preferred list | General Contractor | 🔵 `[FUTURE]` |
 | View supplier's previous transaction history | General Contractor | 🔵 `[FUTURE]` |
 | Create and manage a public supplier profile | Supplier | 🟢 `[MVP]` |
-| Receive a verified badge after submitting credentials | Supplier | 🟢 `[MVP]` |
+| Receive a verified badge after successful credential verification | Supplier | 🟢 `[MVP]` |
 | Update contact information and service area | Supplier | 🟢 `[MVP]` |
 | Browse and shortlist suppliers for a project | Project Manager | 🔵 `[FUTURE]` |
 | Organize suppliers by material category | Project Manager | 🔵 `[FUTURE]` |
@@ -234,12 +235,12 @@ The following use cases are derived from the business proposal and user stories.
 | Compare quotes side by side on price, lead time, and delivery terms | General Contractor | 🟢 `[MVP]` |
 | Set a deadline for quote submissions | General Contractor | 🟢 `[MVP]` |
 | View status of quote requests | General Contractor | 🟢 `[MVP]` |
-| Receive RFQ notifications for carried materials | Supplier | 🟢 `[MVP]` |
+| View RFQ invitations addressed to the supplier | Supplier | 🟢 `[MVP]` |
 | Submit a detailed quote with unit price, quantity, and delivery date | Supplier | 🟢 `[MVP]` |
 | Update or withdraw a quotation before acceptance | Supplier | 🔵 `[FUTURE]` |
 | View status of submitted quotations | Supplier | 🔵 `[FUTURE]` |
 | Initiate RFQ on behalf of general contractor | Project Manager | 🔵 `[FUTURE]` |
-| Review supplier quotations | Project Manager | 🔵 `[FUTURE]` |
+| View supplier quotations for assigned projects | Project Manager | 🟢 `[MVP]` |
 
 ---
 
@@ -257,6 +258,7 @@ The following use cases are derived from the business proposal and user stories.
 | Attach invoice directly to a fulfilled order | Supplier | 🔵 `[FUTURE]` |
 | Review and approve purchase orders before sending to supplier | Project Manager | 🔵 `[FUTURE]` |
 | Receive alerts when order total approaches budget threshold | Project Manager | 🔵 `[FUTURE]` |
+| View purchase orders for assigned projects | Project Manager | 🟢 `[MVP]` |
 
 ---
 
@@ -272,7 +274,7 @@ The following use cases are derived from the business proposal and user stories.
 | Upload proof of delivery document or photo | Supplier | 🔵 `[FUTURE]` |
 | Report delivery delays | Supplier | 🟢 `[MVP]` |
 | View consolidated pending deliveries across active projects | Project Manager | 🔵 `[FUTURE]` |
-| Track material deliveries for a project | Project Manager | 🔵 `[FUTURE]` |
+| Track material deliveries for assigned projects | Project Manager | 🟢 `[MVP]` |
 | Confirm that materials have been delivered | Project Manager | 🔵 `[FUTURE]` |
 
 ---
@@ -290,6 +292,7 @@ The following use cases are derived from the business proposal and user stories.
 | View documents associated with orders | Supplier | 🔵 `[FUTURE]` |
 | Verify all suppliers have valid documentation before work begins | Project Manager | 🔵 `[FUTURE]` |
 | Search for documents by project, supplier, or document type | Project Manager | 🔵 `[FUTURE]` |
+| View procurement documents for assigned projects | Project Manager | 🟢 `[MVP]` |    
 
 ---
 
@@ -335,6 +338,16 @@ The following features are planned for future development beyond the MVP:
 
 Find Suppliers → Request Quotations → Compare Quotations → Place Orders → Track Deliveries → Manage Documents
 
+### MVP Notification Mechanism
+
+In the MVP, notifications and alerts are generated from existing system data and displayed within the relevant user dashboards.
+
+- Order confirmations are reflected through purchase order status updates.
+- Delivery alerts are generated based on delivery status changes and estimated delivery dates.
+- Document expiration alerts are generated based on document expiry dates.
+
+A dedicated notification history, email notification service, and push notification system are considered Future enhancements. Under the proposed dashboard-based alert mechanism, a separate Notification entity is not necessary for the current MVP data model.
+
 ## 6. Team Responsibilities
 
 The website planning and development tasks are divided between two team members.
@@ -359,7 +372,7 @@ The website development will follow a phased implementation approach. Each phase
 - Create role-based dashboards.
 - Develop the supplier directory.
 - Implement supplier search and profile management.
-- Develop RFQ submission and quotation comparison.
+- Develop RFQ creation, supplier invitation viewing, quotation submission, and quotation comparison.
 
 ### Phase 2: Order, Delivery, and Document Management 🟢 `[MVP]`
 
@@ -367,16 +380,29 @@ The website development will follow a phased implementation approach. Each phase
 - Enable supplier order confirmation.
 - Develop delivery tracking and notifications.
 - Implement document upload and management.
-- Support project manager monitoring functions.
+- Implement read-only project manager access to quotations, purchase orders, deliveries, and documents for assigned projects.
 
 ### Phase 3: Future Enhancements 🔵 `[FUTURE]`
 
 - Develop supplier performance analytics (Dau Thuy Dung).
 - Develop advanced procurement reports (黃晴).
 - Implement additional system integrations (Both Members).
+- Extend project manager capabilities with purchase order approval, budget alerts, delivery confirmation, and advanced compliance verification.
 
 ## 8. Project Status
 
 Current stage: Website planning and organization design.
 
 This repository documents the proposed website structure, implementation priorities, and team responsibilities before system development begins.
+
+## 9. Data Model Documentation
+
+The SUPPLIX ER model is documented in [ERModel.md](ERModel.md).
+
+The ER model includes:
+- Entity definitions and attributes supporting the proposed system.
+- Primary keys (PK) and foreign keys (FK).
+- Entity relationships and cardinality constraints.
+- Business rules governing user roles, supplier management, and construction material procurement processes.
+- Database normalization to Third Normal Form (3NF).
+- Clear classification of MVP and Future entities.
