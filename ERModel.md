@@ -1,8 +1,8 @@
-# SUPPLIX - Normalized ER Diagram (3NF)
+# SUPPLIX — Database Architecture and Entity–Relationship Model (3NF)
 
 ## Overview
 
-This document describes the implemented relational model in `SUPPLIX_A3_SUBMISSION`, designed following Third Normal Form (3NF) principles, for SUPPLIX, a construction material supplier management web application. It supports the five MVP features: Supplier Directory, Quote Request & Comparison, Order Management, Delivery Tracking, and Document Vault.
+This document specifies the relational database architecture implemented for SUPPLIX, a web-based construction material supplier and procurement management platform. The current MySQL deployment uses the schema `SUPPLIX_A3_SUBMISSION`, and the application data model follows Third Normal Form (3NF) design principles. It supports the five MVP features: Supplier Directory, Quote Request & Comparison, Order Management, Delivery Tracking, and Document Vault.
 
 The model separates shared material specifications from supplier-specific listings, supports multi-item quotation requests and quotations, and avoids storing project and supplier information redundantly in purchase orders.
 
@@ -12,7 +12,7 @@ The implementation contains **21 physical tables**: **15 MVP application tables*
 
 - 🟢 **MVP** — Required for the initial MVP release.
 - 🔵 **FUTURE** — Planned for later development, not created in SQL.
-- 🟠 **ETL / HISTORICAL** — Supporting tables physically created for Assignment 3.
+- 🟠 **DATA INTEGRATION / HISTORICAL** — Implemented tables supporting source-data ingestion, validation, auditability, and historical transaction analysis.
 - **PK** — Primary key.
 - **FK** — Foreign key.
 - **UNIQUE** — Unique constraint.
@@ -233,9 +233,9 @@ These are design-level normalization decisions. Database implementation must add
 
 **Constraint:** At least one of `project_id`, `supplier_id`, or `po_id` must be non-NULL. When multiple references are provided, they must be consistent with the linked procurement records.
 
-### 🟠 Historical and ETL Tables (implemented in SQL)
+### 🟠 Historical Data and Integration Tables (implemented in SQL)
 
-These six tables are **physically created** for Assignment 3, in addition to the 15 MVP tables. The three `stg_*` tables preserve source fields without enforcing application-level 3NF. Rejection tables document records not loaded into normalized master or transaction tables.
+These six tables are **implemented in the database** alongside the 15 MVP application tables to support historical data integration, quality control, and auditability. The three `stg_*` tables preserve source fields without enforcing application-level 3NF. Rejection tables document records not loaded into normalized master or transaction tables.
 
 #### HistoricalTransaction
 
@@ -276,7 +276,7 @@ A historical source transaction is **not** assumed to be an application `Purchas
 
 **ETL lineage:** `stg_companies → Supplier`, `stg_materials → Material`, and `stg_transactions → HistoricalTransaction`; invalid records are recorded in the corresponding rejection table. These are transformation flows, **not foreign-key relationships**.
 
-**Observed execution evidence from the user-provided MySQL output:** 21 tables, 17 triggers; 500 suppliers, 458 materials; 51,947 raw transactions = 46,835 accepted + 5,112 rejected (`difference = 0`).
+**Database initialization and data-import verification:** 21 tables, 17 triggers; 500 suppliers, 458 materials; 51,947 raw transactions = 46,835 accepted + 5,112 rejected (`difference = 0`).
 
 ### 🔵 Future Entities
 
@@ -394,7 +394,7 @@ A quality-issue metric requires an additional, explicitly defined quality-issue 
 
 ## Implemented Trigger Inventory (17 triggers)
 
-The following triggers are present in the official `SUPPLIX.sql`. Each `BEFORE INSERT` / `BEFORE UPDATE` pair enforces the same rule at both operations, except the final User trigger.
+The following triggers are defined in the current `SUPPLIX.sql` implementation. Each `BEFORE INSERT` / `BEFORE UPDATE` pair enforces the same rule at both operations, except the final User trigger.
 
 | Table | Trigger(s) | Enforced condition |
 |---|---|---|
@@ -647,9 +647,9 @@ erDiagram
     Project |o--o{ Report : "covers"
 ```
 
-## ETL Table Structure (physical tables without declared foreign keys)
+## Data Integration Table Structure (physical tables without declared foreign keys)
 
-The five permanent ETL support tables are part of the 21-table physical database. They are **not** connected by declared SQL foreign keys to the application tables. `staging_id` and `source_id` are traceability fields, not automatically FK constraints. The following compact diagram documents their physical columns; the next diagram illustrates data flow separately.
+The five persistent data-integration support tables are part of the 21-table physical database. They are **not** connected by declared SQL foreign keys to the application tables. `staging_id` and `source_id` are traceability fields, not automatically FK constraints. The following diagram documents their physical columns; the subsequent diagram illustrates the data-ingestion flow.
 
 ```mermaid
 erDiagram
@@ -697,9 +697,9 @@ erDiagram
     }
 ```
 
-## ETL Lineage Diagram (not an FK ER diagram)
+## Data Integration and ETL Lineage (not an FK ER diagram)
 
-The following shows the import and transformation paths in the official SQL. Arrows indicate ETL operations rather than relational constraints. Temporary `etl_tx_parsed` and `etl_tx_review` tables are created and dropped during the script, so they are **not** counted among the 21 persistent tables.
+The following shows the import and transformation paths implemented in the SUPPLIX database initialization and data-integration SQL. Arrows indicate ETL operations rather than relational constraints. Temporary `etl_tx_parsed` and `etl_tx_review` tables are created and dropped during the script, so they are **not** counted among the 21 persistent tables.
 
 ```mermaid
 flowchart LR
@@ -718,4 +718,4 @@ flowchart LR
     V2 --> RT[ETL_RejectedTransaction]
 ```
 
-**Verification from the completed MySQL run:** 51,947 staged transactions = 46,835 accepted historical transactions + 5,112 rejected transactions; reconciliation difference 0. This establishes row-count reconciliation, not complete validation of all possible application workflows.
+**Data-import reconciliation:** 51,947 staged transactions = 46,835 accepted historical transactions + 5,112 rejected transactions; reconciliation difference 0. This establishes row-count reconciliation, not complete validation of all possible application workflows.
