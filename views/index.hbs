@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{title}}</title>
+
+    <script src="/htmx.min.js"></script>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-icons.min.css">
+    <script src="/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background: #f3f6fb;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            background: #14243b;
+            color: white;
+            padding: 25px 15px;
+            min-height: 100vh;
+        }
+
+        .sidebar-logo {
+            color: #ffffff;
+            font-size: 27px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-subtitle {
+            color: #94a3b8;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .nav-link {
+            color: #cbd5e1;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+        }
+
+        .sidebar .nav-link:hover {
+            background: #294566;
+            color: #ffffff;
+        }
+
+        .sidebar .nav-link.active {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .sidebar .nav-link i {
+            font-size: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .topbar {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 20px 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+            margin-bottom: 25px;
+        }
+
+        .topbar h2 {
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .topbar p {
+            color: #64748b;
+            margin: 5px 0 0;
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: 0.2s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+        }
+
+        .dashboard-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        .dashboard-card h5 {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .dashboard-card p {
+            color: #64748b;
+            margin-bottom: 0;
+        }
+
+        .dashboard-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .dashboard-card a:hover {
+            color: inherit;
+        }
+
+        @media (max-width: 768px) {
+            .app-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: 0;
+                min-height: auto;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        {{> navbar}}
+    </aside>
+
+    <div class="main-content">
+
+        <header class="topbar">
+            <h2>SUPPLIX Dashboard</h2>
+            <p>Construction Supplier Management System</p>
+        </header>
+
+        <div id="toast"></div>
+
+        <main id="main"
+              {{#where}}
+              hx-trigger="load"
+              hx-get="{{.}}"
+              {{/where}}>
+
+            <div class="mb-4">
+                <h3 class="fw-bold">Welcome to SUPPLIX</h3>
+                <p class="text-secondary">
+                    Manage your construction supply chain in one place.
+                </p>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="dashboard-card">
+                        <a href="/suppliers/">
+                            <div class="dashboard-icon"
+                                 style="background:#dbeafe;color:#2563eb;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <h5>Suppliers</h5>
+                            <p>Manage construction material suppliers.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="dashboard-card">
+                        <a href="/materials/">
+                            <div class="dashboard-icon"
+                                 style="background:#d1fae5;color:#059669;">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </div>
+                            <h5>Materials</h5>
+                            <p>View and manage construction materials.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="dashboard-card">
+                        <a href="/rfqs/">
+                            <div class="dashboard-icon"
+                                 style="background:#fef3c7;color:#d97706;">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+                            <h5>RFQs</h5>
+                            <p>Create and manage quotation requests.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="dashboard-card">
+                        <a href="/quotations/">
+                            <div class="dashboard-icon"
+                                 style="background:#ede9fe;color:#7c3aed;">
+                                <i class="bi bi-receipt"></i>
+                            </div>
+                            <h5>Quotations</h5>
+                            <p>Review quotations from suppliers.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="dashboard-card">
+                        <a href="/purchase-orders/">
+                            <div class="dashboard-icon"
+                                 style="background:#fee2e2;color:#dc4b4b;">
+                                <i class="bi bi-cart-check-fill"></i>
+                            </div>
+                            <h5>Purchase Orders</h5>
+                            <p>Track procurement and purchase orders.</p>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer class="text-center text-secondary mt-5">
+            <hr>
+            <p>&copy; 2026 SUPPLIX - Construction Supplier Management System</p>
+        </footer>
+
+    </div>
+</div>
+
+</body>
+</html>
