@@ -1,0 +1,105 @@
+
+<div class="container-fluid py-3">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Edit Supplier</h2>
+        <p class="text-muted">
+            Update supplier information and verification status.
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <form action="/suppliers/edit/{{supplier.supplier_id}}"
+                  method="POST"
+                  hx-boost="false">
+
+                <div class="mb-3">
+                    <label class="form-label">Supplier ID</label>
+                    <input type="text"
+                           class="form-control"
+                           value="{{supplier.supplier_id}}"
+                           readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Company Name *</label>
+                    <input type="text"
+                           name="company_name"
+                           class="form-control"
+                           value="{{supplier.company_name}}"
+                           maxlength="200"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description"
+                              class="form-control"
+                              rows="3">{{supplier.description}}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text"
+                           name="location"
+                           class="form-control"
+                           value="{{supplier.location}}">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text"
+                               name="phone"
+                               class="form-control"
+                               value="{{supplier.phone}}"
+                               maxlength="100">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               value="{{supplier.email}}"
+                               maxlength="200">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Verification Status</label>
+
+                    <select name="is_verified"
+                            class="form-select">
+                        {{#if supplier.is_verified}}
+                            <option value="1" selected>Verified</option>
+                            <option value="0">Not Verified</option>
+                        {{else}}
+                            <option value="0" selected>Not Verified</option>
+                            <option value="1">Verified</option>
+                        {{/if}}
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i>
+                        Save Changes
+                    </button>
+
+                    <a href="/suppliers"
+                       hx-boost="false"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
