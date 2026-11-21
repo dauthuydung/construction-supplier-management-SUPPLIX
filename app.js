@@ -138,7 +138,14 @@ materials.connection = connection;
 app.use('/materials', materials);
 
 // =====================================
-// 8. START WEB SERVER
+// 8. RFQ MANAGEMENT ROUTES
+// =====================================
+const rfqs = require('./routes/rfqs');
+rfqs.connection = connection;
+app.use('/rfqs', rfqs);
+
+// =====================================
+// 9. START WEB SERVER
 // =====================================
 
 const PORT = 80;
