@@ -1,0 +1,109 @@
+
+<div class="container-fluid py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Edit Material</h2>
+            <p class="text-muted">
+                Update construction material information.
+            </p>
+        </div>
+
+        <a href="/materials/"
+           hx-get="/materials/"
+           hx-target="#main"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Materials
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-4">Material Information</h5>
+
+            <form hx-post="/materials/edit/{{material.material_id}}"
+                  hx-target="#main"
+                  hx-swap="innerHTML">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Material ID
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{material.material_id}}"
+                               readonly>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Material Name *
+                        </label>
+                        <input type="text"
+                               name="name"
+                               class="form-control"
+                               value="{{material.name}}"
+                               required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Category
+                        </label>
+                        <input type="text"
+                               name="category"
+                               class="form-control"
+                               maxlength="100"
+                               value="{{material.category}}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Unit *
+                        </label>
+                        <input type="text"
+                               name="unit"
+                               class="form-control"
+                               maxlength="50"
+                               value="{{material.unit}}"
+                               required>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">
+                            Specification
+                        </label>
+                        <textarea name="specification"
+                                  class="form-control"
+                                  rows="3">{{material.specification}}</textarea>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+
+                    <a href="/materials/"
+                       hx-get="/materials/"
+                       hx-target="#main"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Update Material
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
