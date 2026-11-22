@@ -5,7 +5,6 @@
             <h2 class="fw-bold">Create Quotation</h2>
             <p class="text-muted">Create a new quotation from a supplier.</p>
         </div>
-
         <a href="/quotations/"
            hx-get="/quotations/"
            hx-target="#main"
@@ -25,69 +24,29 @@
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Quotation ID</label>
-                    <input type="text"
-                           name="quotation_id"
-                           class="form-control"
-                           maxlength="20"
-                           placeholder="Example: QT_001"
-                           required>
+                    <input type="text" name="quotation_id" class="form-control"
+                           maxlength="20" placeholder="Example: QT_001" required>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">RFQ</label>
-                    <select name="rfq_id" class="form-select" required>
-                        <option value="">Select RFQ</option>
-                        {{#each rfqs}}
-                        <option value="{{rfq_id}}">{{rfq_id}}</option>
+                    <label class="form-label fw-semibold">RFQ &amp; Supplier</label>
+                    <select name="rfq_id" id="rfq-supplier-select"
+                            class="form-select" required
+                            onchange="onRFQSupplierChange(this)">
+                        <option value="">Select RFQ + Supplier</option>
+                        {{#each rfqSuppliers}}
+                        <option value="{{rfq_id}}"
+                                data-supplier="{{supplier_id}}">
+                            RFQ: {{rfq_id}} — {{company_name}} ({{supplier_id}})
+                        </option>
                         {{/each}}
                     </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Supplier</label>
-                    <select name="supplier_id" class="form-select" required>
-                        <option value="">Select Supplier</option>
-                        {{#each suppliers}}
-                        <option value="{{supplier_id}}">{{name}} ({{supplier_id}})</option>
-                        {{/each}}
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Unit Price</label>
-                    <input type="number"
-                           name="unit_price"
-                           class="form-control"
-                           min="0.01"
-                           step="0.01"
-                           placeholder="0.00"
-                           required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Quantity</label>
-                    <input type="number"
-                           name="quantity"
-                           class="form-control"
-                           min="0.01"
-                           step="0.01"
-                           placeholder="0.00"
-                           required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Delivery Date</label>
-                    <input type="date"
-                           name="delivery_date"
-                           class="form-control"
-                           required>
+                    <input type="hidden" name="supplier_id" id="supplier-id-input">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Delivery Terms</label>
-                    <textarea name="delivery_terms"
-                              class="form-control"
-                              rows="3"
+                    <textarea name="delivery_terms" class="form-control" rows="3"
                               placeholder="Enter delivery terms..."></textarea>
                 </div>
 
@@ -102,20 +61,90 @@
 
                 <hr class="my-4">
 
+                <h5 class="fw-bold mb-2">Quotation Items</h5>
+                <p class="text-muted">Fill in prices for each RFQ item.</p>
+
+                <div id="quotation-items-container">
+                    <p class="text-muted">Please select an RFQ + Supplier first.</p>
+                </div>
+
+                <hr class="my-4">
+
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-circle me-2"></i>
-                        Create Quotation
+                        <i class="bi bi-check-circle me-2"></i>Create Quotation
                     </button>
                     <a href="/quotations/"
                        hx-get="/quotations/"
                        hx-target="#main"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
+                       class="btn btn-outline-secondary">Cancel</a>
                 </div>
 
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    const rfqItems = {{{rfqItems}}};
+
+    window.onRFQSupplierChange = function(select) {
+        const rfqId = select.value;
+        const supplierId = select.options[select.selectedIndex]?.dataset?.supplier || '';
+
+        document.getElementById('supplier-id-input').value = supplierId;
+
+        const container = document.getElementById('quotation-items-container');
+
+        const items = rfqItems.filter(item => item.rfq_id === rfqId);
+
+        if (items.length === 0) {
+            container.innerHTML = '<p class="text-muted">No items found for this RFQ.</p>';
+            return;
+        }
+
+        let html = `
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Material</th>
+                            <th>RFQ Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Delivery Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        items.forEach(item => {
+            html += `
+                <tr>
+                    <td>
+                        ${item.material_name} (${item.unit})
+                        <input type="hidden" name="rfq_item_id[]" value="${item.rfq_item_id}">
+                    </td>
+                    <td>${item.quantity}</td>
+                    <td>
+                        <input type="number" name="unit_price[]"
+                               class="form-control" min="0.01" step="0.0001"
+                               placeholder="0.00" required>
+                    </td>
+                    <td>
+                        <input type="number" name="quantity[]"
+                               class="form-control" min="0.01" step="0.0001"
+                               value="${item.quantity}" required>
+                    </td>
+                    <td>
+                        <input type="date" name="delivery_date[]"
+                               class="form-control" required>
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += `</tbody></table></div>`;
+        container.innerHTML = html;
+    };
+</script>

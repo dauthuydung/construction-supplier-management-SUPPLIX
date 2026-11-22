@@ -162,9 +162,9 @@ app.use('/quotations', quotations);
 // 10. PURCHASE ORDER MANAGEMENT ROUTES
 // =====================================
 
-const purchase_orders = require('./routes/purchase_orders');
-purchase_orders.connection = connection;
-app.use('/purchase_orders', purchase_orders);
+const purchaseOrders = require('./routes/purchase_orders');
+purchaseOrders.connection = connection;
+app.use('/purchase_orders', purchaseOrders);
 
 app.listen(PORT, () => {
     console.log(`SUPPLIX web server listening on port ${PORT}!`);

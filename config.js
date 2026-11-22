@@ -1,9 +1,9 @@
 const config = {
     db: {
-        host: "etl",
-        user: "supplix_app",
+        host: process.env.SUPPLIX_DB_HOST || "etl",
+        user: process.env.SUPPLIX_DB_USER || "supplix_app",
         password: process.env.SUPPLIX_DB_PASSWORD,
-        database: "SUPPLIX_A3_SUBMISSION",
+        database: process.env.SUPPLIX_DB_NAME || "SUPPLIX_A3_SUBMISSION",
         connectTimeout: 60000
     }
 };

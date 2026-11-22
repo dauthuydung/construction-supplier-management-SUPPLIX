@@ -5,7 +5,6 @@
             <h2 class="fw-bold">Edit Quotation</h2>
             <p class="text-muted">Update quotation information.</p>
         </div>
-
         <a href="/quotations/"
            hx-get="/quotations/"
            hx-target="#main"
@@ -25,71 +24,25 @@
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Quotation ID</label>
-                    <input type="text"
-                           class="form-control"
-                           value="{{quotation.quotation_id}}"
-                           readonly>
+                    <input type="text" class="form-control"
+                           value="{{quotation.quotation_id}}" readonly>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">RFQ</label>
-                    <select name="rfq_id" class="form-select" required>
-                        <option value="">Select RFQ</option>
-                        {{#each rfqs}}
-                        <option value="{{rfq_id}}" {{#if selected}}selected{{/if}}>
-                            {{rfq_id}}
-                        </option>
-                        {{/each}}
-                    </select>
+                    <label class="form-label fw-semibold">RFQ ID</label>
+                    <input type="text" class="form-control"
+                           value="{{quotation.rfq_id}}" readonly>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Supplier</label>
-                    <select name="supplier_id" class="form-select" required>
-                        <option value="">Select Supplier</option>
-                        {{#each suppliers}}
-                        <option value="{{supplier_id}}" {{#if selected}}selected{{/if}}>
-                            {{name}} ({{supplier_id}})
-                        </option>
-                        {{/each}}
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Unit Price</label>
-                    <input type="number"
-                           name="unit_price"
-                           class="form-control"
-                           min="0.01"
-                           step="0.01"
-                           value="{{quotation.unit_price}}"
-                           required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Quantity</label>
-                    <input type="number"
-                           name="quantity"
-                           class="form-control"
-                           min="0.01"
-                           step="0.01"
-                           value="{{quotation.quantity}}"
-                           required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Delivery Date</label>
-                    <input type="date"
-                           name="delivery_date"
-                           class="form-control"
-                           value="{{quotation.delivery_date}}"
-                           required>
+                    <label class="form-label fw-semibold">Supplier ID</label>
+                    <input type="text" class="form-control"
+                           value="{{quotation.supplier_id}}" readonly>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Delivery Terms</label>
-                    <textarea name="delivery_terms"
-                              class="form-control"
+                    <textarea name="delivery_terms" class="form-control"
                               rows="3">{{quotation.delivery_terms}}</textarea>
                 </div>
 
@@ -104,17 +57,63 @@
 
                 <hr class="my-4">
 
+                <h5 class="fw-bold mb-2">Quotation Items</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Material</th>
+                                <th>Unit Price</th>
+                                <th>Quantity</th>
+                                <th>Delivery Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each items}}
+                            <tr>
+                                <td>
+                                    {{material_name}} ({{material_unit}})
+                                    <input type="hidden" name="quotation_item_id[]"
+                                           value="{{quotation_item_id}}">
+                                </td>
+                                <td>
+                                    <input type="number" name="unit_price[]"
+                                           class="form-control" min="0.01" step="0.0001"
+                                           value="{{unit_price}}" required>
+                                </td>
+                                <td>
+                                    <input type="number" name="quantity[]"
+                                           class="form-control" min="0.01" step="0.0001"
+                                           value="{{quantity}}" required>
+                                </td>
+                                <td>
+                                    <input type="date" name="delivery_date[]"
+                                           class="form-control"
+                                           value="{{delivery_date}}" required>
+                                </td>
+                            </tr>
+                            {{else}}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">
+                                    No items found.
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-4">
+
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-circle me-2"></i>
-                        Save Changes
+                        <i class="bi bi-check-circle me-2"></i>Save Changes
                     </button>
                     <a href="/quotations/"
                        hx-get="/quotations/"
                        hx-target="#main"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
+                       class="btn btn-outline-secondary">Cancel</a>
                 </div>
 
             </form>

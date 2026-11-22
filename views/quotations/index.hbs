@@ -3,9 +3,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold">Quotation Management</h2>
-            <p class="text-muted">
-                Manage quotations from suppliers.
-            </p>
+            <p class="text-muted">Manage quotations from suppliers.</p>
         </div>
 
         <a href="/quotations/add"
@@ -26,7 +24,6 @@
                   hx-target="#main"
                   hx-swap="innerHTML"
                   class="row g-3 mb-4">
-
                 <div class="col-md-9">
                     <input type="text"
                            name="search"
@@ -34,33 +31,26 @@
                            placeholder="Search by Quotation ID, RFQ ID, or Supplier..."
                            value="{{search}}">
                 </div>
-
                 <div class="col-md-3">
-                    <button type="submit"
-                            class="btn btn-primary w-100">
-                        <i class="bi bi-search me-2"></i>
-                        Search
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search me-2"></i>Search
                     </button>
                 </div>
             </form>
 
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
-
                     <thead class="table-light">
                         <tr>
                             <th>Quotation ID</th>
                             <th>RFQ ID</th>
                             <th>Supplier</th>
-                            <th>Unit Price</th>
-                            <th>Quantity</th>
-                            <th>Delivery Date</th>
+                            <th>Delivery Terms</th>
                             <th>Status</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {{#each quotations}}
                         <tr>
@@ -70,9 +60,7 @@
                                 {{supplier_name}}
                                 <div class="small text-muted">{{supplier_id}}</div>
                             </td>
-                            <td>{{unit_price}}</td>
-                            <td>{{quantity}}</td>
-                            <td>{{delivery_date}}</td>
+                            <td>{{delivery_terms}}</td>
                             <td>
                                 {{#if (eq status "accepted")}}
                                 <span class="badge bg-success">accepted</span>
@@ -89,8 +77,7 @@
                                        hx-get="/quotations/edit/{{quotation_id}}"
                                        hx-target="#main"
                                        class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-pencil-square me-1"></i>
-                                        Edit
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
                                     </a>
                                     <button type="button"
                                             class="btn btn-sm btn-outline-danger"
@@ -98,25 +85,22 @@
                                             hx-target="#main"
                                             hx-swap="innerHTML"
                                             hx-confirm="Are you sure you want to delete Quotation {{quotation_id}}?">
-                                        <i class="bi bi-trash me-1"></i>
-                                        Delete
+                                        <i class="bi bi-trash me-1"></i>Delete
                                     </button>
                                 </div>
                             </td>
                         </tr>
                         {{else}}
                         <tr>
-                            <td colspan="9" class="text-center text-muted py-4">
+                            <td colspan="7" class="text-center text-muted py-4">
                                 No quotations found.
                             </td>
                         </tr>
                         {{/each}}
                     </tbody>
-
                 </table>
             </div>
 
         </div>
     </div>
-
 </div>

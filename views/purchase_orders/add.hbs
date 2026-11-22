@@ -3,9 +3,8 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold">Create Purchase Order</h2>
-            <p class="text-muted">Create a new purchase order.</p>
+            <p class="text-muted">Create a new purchase order from an accepted quotation.</p>
         </div>
-
         <a href="/purchase_orders/"
            hx-get="/purchase_orders/"
            hx-target="#main"
@@ -25,47 +24,25 @@
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">PO ID</label>
-                    <input type="text"
-                           name="po_id"
-                           class="form-control"
-                           maxlength="20"
-                           placeholder="Example: PO_001"
-                           required>
+                    <input type="text" name="po_id" class="form-control"
+                           maxlength="20" placeholder="Example: PO_001" required>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Project</label>
-                    <select name="project_id" class="form-select" required>
-                        <option value="">Select Project</option>
-                        {{#each projects}}
-                        <option value="{{project_id}}">{{name}} ({{project_id}})</option>
-                        {{/each}}
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Supplier</label>
-                    <select name="supplier_id" class="form-select" required>
-                        <option value="">Select Supplier</option>
-                        {{#each suppliers}}
-                        <option value="{{supplier_id}}">{{name}} ({{supplier_id}})</option>
-                        {{/each}}
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Quotation (Optional)</label>
-                    <select name="quotation_id" class="form-select">
-                        <option value="">None</option>
+                    <label class="form-label fw-semibold">Accepted Quotation</label>
+                    <select name="quotation_id" class="form-select" required>
+                        <option value="">Select Quotation</option>
                         {{#each quotations}}
-                        <option value="{{quotation_id}}">{{quotation_id}}</option>
+                        <option value="{{quotation_id}}">
+                            {{quotation_id}} — RFQ: {{rfq_id}} — {{company_name}} ({{supplier_id}})
+                        </option>
                         {{/each}}
                     </select>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">User</label>
-                    <select name="user_id" class="form-select" required>
+                    <label class="form-label fw-semibold">Created By</label>
+                    <select name="created_by" class="form-select" required>
                         <option value="">Select User</option>
                         {{#each users}}
                         <option value="{{user_id}}">{{name}} ({{user_id}})</option>
@@ -73,201 +50,31 @@
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Total Amount</label>
-                    <input type="number"
-                           name="total_amount"
-                           class="form-control"
-                           min="0"
-                           step="0.01"
-                           placeholder="0.00"
-                           required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Transaction Date (Optional)</label>
-                    <input type="date"
-                           name="transaction_date"
-                           class="form-control">
-                </div>
-
-                <div class="mb-3">
+                <div class="mb-4">
                     <label class="form-label fw-semibold">Status</label>
                     <select name="status" class="form-select" required>
+                        <option value="draft">Draft</option>
                         <option value="pending">Pending</option>
                         <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
                         <option value="in_progress">In Progress</option>
                         <option value="fulfilled">Fulfilled</option>
                     </select>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Notes (Optional)</label>
-                    <textarea name="notes"
-                              class="form-control"
-                              rows="3"
-                              placeholder="Enter notes..."></textarea>
-                </div>
-
-                <hr class="my-4">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h5 class="fw-bold mb-1">PO Items</h5>
-                        <p class="text-muted mb-0">Add materials to this purchase order.</p>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width:35%">Material</th>
-                                <th style="width:15%">Quantity</th>
-                                <th style="width:15%">Unit Price</th>
-                                <th style="width:15%">Discount (%)</th>
-                                <th style="width:15%">Subtotal</th>
-                                <th style="width:5%">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="po-item-rows">
-                            <tr class="po-item-row">
-                                <td>
-                                    <select name="material_id[]" class="form-select" required>
-                                        <option value="">Select Material</option>
-                                        {{#each materials}}
-                                        <option value="{{material_id}}">{{name}} ({{unit}})</option>
-                                        {{/each}}
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="number" name="quantity[]"
-                                           class="form-control po-qty"
-                                           min="0.01" step="0.01" placeholder="0.00" required>
-                                </td>
-                                <td>
-                                    <input type="number" name="unit_price[]"
-                                           class="form-control po-price"
-                                           min="0" step="0.01" placeholder="0.00" required>
-                                </td>
-                                <td>
-                                    <input type="number" name="discount_rate[]"
-                                           class="form-control po-discount"
-                                           min="0" max="100" step="0.01" value="0">
-                                </td>
-                                <td>
-                                    <input type="number" name="subtotal[]"
-                                           class="form-control po-subtotal"
-                                           min="0" step="0.01" placeholder="0.00" readonly>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button"
-                                            class="btn btn-outline-danger btn-sm"
-                                            onclick="removePOItem(this)">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <button type="button"
-                        class="btn btn-outline-primary mb-4"
-                        onclick="addPOItem()">
-                    <i class="bi bi-plus-circle me-2"></i>
-                    Add Item
-                </button>
-
                 <hr class="my-4">
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-circle me-2"></i>
-                        Create Purchase Order
+                        <i class="bi bi-check-circle me-2"></i>Create Purchase Order
                     </button>
                     <a href="/purchase_orders/"
                        hx-get="/purchase_orders/"
                        hx-target="#main"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
+                       class="btn btn-outline-secondary">Cancel</a>
                 </div>
 
             </form>
         </div>
     </div>
 </div>
-
-<template id="po-item-template">
-    <tr class="po-item-row">
-        <td>
-            <select name="material_id[]" class="form-select" required>
-                <option value="">Select Material</option>
-                {{#each materials}}
-                <option value="{{material_id}}">{{name}} ({{unit}})</option>
-                {{/each}}
-            </select>
-        </td>
-        <td>
-            <input type="number" name="quantity[]"
-                   class="form-control po-qty"
-                   min="0.01" step="0.01" placeholder="0.00" required>
-        </td>
-        <td>
-            <input type="number" name="unit_price[]"
-                   class="form-control po-price"
-                   min="0" step="0.01" placeholder="0.00" required>
-        </td>
-        <td>
-            <input type="number" name="discount_rate[]"
-                   class="form-control po-discount"
-                   min="0" max="100" step="0.01" value="0">
-        </td>
-        <td>
-            <input type="number" name="subtotal[]"
-                   class="form-control po-subtotal"
-                   min="0" step="0.01" placeholder="0.00" readonly>
-        </td>
-        <td class="text-center">
-            <button type="button"
-                    class="btn btn-outline-danger btn-sm"
-                    onclick="removePOItem(this)">
-                <i class="bi bi-trash"></i>
-            </button>
-        </td>
-    </tr>
-</template>
-
-<script>
-    function calcSubtotal(row) {
-        const qty      = parseFloat(row.querySelector('.po-qty').value)      || 0;
-        const price    = parseFloat(row.querySelector('.po-price').value)    || 0;
-        const discount = parseFloat(row.querySelector('.po-discount').value) || 0;
-        const subtotal = qty * price * (1 - discount / 100);
-        row.querySelector('.po-subtotal').value = subtotal.toFixed(2);
-    }
-
-    document.addEventListener('input', function (e) {
-        const row = e.target.closest('.po-item-row');
-        if (row) calcSubtotal(row);
-    });
-
-    window.addPOItem = function () {
-        const tbody   = document.getElementById('po-item-rows');
-        const template = document.getElementById('po-item-template');
-        if (!tbody || !template) return;
-        tbody.appendChild(template.content.cloneNode(true));
-    };
-
-    window.removePOItem = function (button) {
-        const tbody = document.getElementById('po-item-rows');
-        if (!tbody) return;
-        const rows = tbody.querySelectorAll('.po-item-row');
-        if (rows.length <= 1) {
-            alert('A Purchase Order must contain at least one item.');
-            return;
-        }
-        button.closest('tr').remove();
-    };
-</script>
