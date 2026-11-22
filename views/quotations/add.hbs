@@ -1,0 +1,121 @@
+<div class="container-fluid py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Create Quotation</h2>
+            <p class="text-muted">Create a new quotation from a supplier.</p>
+        </div>
+
+        <a href="/quotations/"
+           hx-get="/quotations/"
+           hx-target="#main"
+           class="btn btn-outline-secondary">
+            Back to Quotation List
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <form hx-post="/quotations/add"
+                  hx-target="#main"
+                  hx-swap="innerHTML">
+
+                <h5 class="fw-bold mb-4">Quotation Information</h5>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Quotation ID</label>
+                    <input type="text"
+                           name="quotation_id"
+                           class="form-control"
+                           maxlength="20"
+                           placeholder="Example: QT_001"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">RFQ</label>
+                    <select name="rfq_id" class="form-select" required>
+                        <option value="">Select RFQ</option>
+                        {{#each rfqs}}
+                        <option value="{{rfq_id}}">{{rfq_id}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Supplier</label>
+                    <select name="supplier_id" class="form-select" required>
+                        <option value="">Select Supplier</option>
+                        {{#each suppliers}}
+                        <option value="{{supplier_id}}">{{name}} ({{supplier_id}})</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Unit Price</label>
+                    <input type="number"
+                           name="unit_price"
+                           class="form-control"
+                           min="0.01"
+                           step="0.01"
+                           placeholder="0.00"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Quantity</label>
+                    <input type="number"
+                           name="quantity"
+                           class="form-control"
+                           min="0.01"
+                           step="0.01"
+                           placeholder="0.00"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Delivery Date</label>
+                    <input type="date"
+                           name="delivery_date"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Delivery Terms</label>
+                    <textarea name="delivery_terms"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Enter delivery terms..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Status</label>
+                    <select name="status" class="form-select" required>
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Create Quotation
+                    </button>
+                    <a href="/quotations/"
+                       hx-get="/quotations/"
+                       hx-target="#main"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

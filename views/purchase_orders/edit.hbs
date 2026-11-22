@@ -1,0 +1,318 @@
+<div class="container-fluid py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Edit Purchase Order</h2>
+            <p class="text-muted">Update purchase order information.</p>
+        </div>
+
+        <a href="/purchase_orders/"
+           hx-get="/purchase_orders/"
+           hx-target="#main"
+           class="btn btn-outline-secondary">
+            Back to Purchase Order List
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <form hx-post="/purchase_orders/edit/{{po.po_id}}"
+                  hx-target="#main"
+                  hx-swap="innerHTML">
+
+                <h5 class="fw-bold mb-4">Purchase Order Information</h5>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">PO ID</label>
+                    <input type="text" class="form-control" value="{{po.po_id}}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Project</label>
+                    <select name="project_id" class="form-select" required>
+                        <option value="">Select Project</option>
+                        {{#each projects}}
+                        <option value="{{project_id}}" {{#if selected}}selected{{/if}}>
+                            {{name}} ({{project_id}})
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Supplier</label>
+                    <select name="supplier_id" class="form-select" required>
+                        <option value="">Select Supplier</option>
+                        {{#each suppliers}}
+                        <option value="{{supplier_id}}" {{#if selected}}selected{{/if}}>
+                            {{name}} ({{supplier_id}})
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Quotation (Optional)</label>
+                    <select name="quotation_id" class="form-select">
+                        <option value="">None</option>
+                        {{#each quotations}}
+                        <option value="{{quotation_id}}" {{#if selected}}selected{{/if}}>
+                            {{quotation_id}}
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">User</label>
+                    <select name="user_id" class="form-select" required>
+                        <option value="">Select User</option>
+                        {{#each users}}
+                        <option value="{{user_id}}" {{#if selected}}selected{{/if}}>
+                            {{name}} ({{user_id}})
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Total Amount</label>
+                    <input type="number"
+                           name="total_amount"
+                           class="form-control"
+                           min="0"
+                           step="0.01"
+                           value="{{po.total_amount}}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Transaction Date (Optional)</label>
+                    <input type="date"
+                           name="transaction_date"
+                           class="form-control"
+                           value="{{po.transaction_date}}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Status</label>
+                    <select name="status" class="form-select" required>
+                        <option value="pending"     {{#if po.statusPending}}selected{{/if}}>Pending</option>
+                        <option value="accepted"    {{#if po.statusAccepted}}selected{{/if}}>Accepted</option>
+                        <option value="in_progress" {{#if po.statusInProgress}}selected{{/if}}>In Progress</option>
+                        <option value="fulfilled"   {{#if po.statusFulfilled}}selected{{/if}}>Fulfilled</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Notes (Optional)</label>
+                    <textarea name="notes" class="form-control" rows="3">{{po.notes}}</textarea>
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="fw-bold mb-2">PO Items</h5>
+                <p class="text-muted">Edit materials in this purchase order.</p>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width:35%">Material</th>
+                                <th style="width:15%">Quantity</th>
+                                <th style="width:15%">Unit Price</th>
+                                <th style="width:15%">Discount (%)</th>
+                                <th style="width:15%">Subtotal</th>
+                                <th style="width:5%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="po-edit-item-rows">
+
+                            {{#each items}}
+                            <tr class="po-edit-item-row">
+                                <td>
+                                    <select name="material_id[]" class="form-select" required>
+                                        <option value="">Select Material</option>
+                                        {{#each materialOptions}}
+                                        <option value="{{material_id}}" {{#if selected}}selected{{/if}}>
+                                            {{name}} ({{unit}})
+                                        </option>
+                                        {{/each}}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="quantity[]"
+                                           class="form-control po-edit-qty"
+                                           min="0.01" step="0.01"
+                                           value="{{quantity}}" required>
+                                </td>
+                                <td>
+                                    <input type="number" name="unit_price[]"
+                                           class="form-control po-edit-price"
+                                           min="0" step="0.01"
+                                           value="{{unit_price}}" required>
+                                </td>
+                                <td>
+                                    <input type="number" name="discount_rate[]"
+                                           class="form-control po-edit-discount"
+                                           min="0" max="100" step="0.01"
+                                           value="{{discount_rate}}">
+                                </td>
+                                <td>
+                                    <input type="number" name="subtotal[]"
+                                           class="form-control po-edit-subtotal"
+                                           min="0" step="0.01"
+                                           value="{{subtotal}}" readonly>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removePOEditItem(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {{else}}
+                            <tr class="po-edit-item-row">
+                                <td>
+                                    <select name="material_id[]" class="form-select" required>
+                                        <option value="">Select Material</option>
+                                        {{#each materials}}
+                                        <option value="{{material_id}}">{{name}} ({{unit}})</option>
+                                        {{/each}}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="quantity[]"
+                                           class="form-control po-edit-qty"
+                                           min="0.01" step="0.01" placeholder="0.00" required>
+                                </td>
+                                <td>
+                                    <input type="number" name="unit_price[]"
+                                           class="form-control po-edit-price"
+                                           min="0" step="0.01" placeholder="0.00" required>
+                                </td>
+                                <td>
+                                    <input type="number" name="discount_rate[]"
+                                           class="form-control po-edit-discount"
+                                           min="0" max="100" step="0.01" value="0">
+                                </td>
+                                <td>
+                                    <input type="number" name="subtotal[]"
+                                           class="form-control po-edit-subtotal"
+                                           min="0" step="0.01" placeholder="0.00" readonly>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removePOEditItem(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button"
+                        class="btn btn-outline-primary mb-4"
+                        onclick="addPOEditItem()">
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Add Item
+                </button>
+
+                <hr class="my-4">
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Save Changes
+                    </button>
+                    <a href="/purchase_orders/"
+                       hx-get="/purchase_orders/"
+                       hx-target="#main"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<template id="po-edit-item-template">
+    <tr class="po-edit-item-row">
+        <td>
+            <select name="material_id[]" class="form-select" required>
+                <option value="">Select Material</option>
+                {{#each materials}}
+                <option value="{{material_id}}">{{name}} ({{unit}})</option>
+                {{/each}}
+            </select>
+        </td>
+        <td>
+            <input type="number" name="quantity[]"
+                   class="form-control po-edit-qty"
+                   min="0.01" step="0.01" placeholder="0.00" required>
+        </td>
+        <td>
+            <input type="number" name="unit_price[]"
+                   class="form-control po-edit-price"
+                   min="0" step="0.01" placeholder="0.00" required>
+        </td>
+        <td>
+            <input type="number" name="discount_rate[]"
+                   class="form-control po-edit-discount"
+                   min="0" max="100" step="0.01" value="0">
+        </td>
+        <td>
+            <input type="number" name="subtotal[]"
+                   class="form-control po-edit-subtotal"
+                   min="0" step="0.01" placeholder="0.00" readonly>
+        </td>
+        <td class="text-center">
+            <button type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    onclick="removePOEditItem(this)">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    </tr>
+</template>
+
+<script>
+    function calcEditSubtotal(row) {
+        const qty      = parseFloat(row.querySelector('.po-edit-qty').value)      || 0;
+        const price    = parseFloat(row.querySelector('.po-edit-price').value)    || 0;
+        const discount = parseFloat(row.querySelector('.po-edit-discount').value) || 0;
+        const subtotal = qty * price * (1 - discount / 100);
+        row.querySelector('.po-edit-subtotal').value = subtotal.toFixed(2);
+    }
+
+    document.addEventListener('input', function (e) {
+        const row = e.target.closest('.po-edit-item-row');
+        if (row) calcEditSubtotal(row);
+    });
+
+    window.addPOEditItem = function () {
+        const tbody    = document.getElementById('po-edit-item-rows');
+        const template = document.getElementById('po-edit-item-template');
+        if (!tbody || !template) return;
+        tbody.appendChild(template.content.cloneNode(true));
+    };
+
+    window.removePOEditItem = function (button) {
+        const tbody = document.getElementById('po-edit-item-rows');
+        if (!tbody) return;
+        const rows = tbody.querySelectorAll('.po-edit-item-row');
+        if (rows.length <= 1) {
+            alert('A Purchase Order must contain at least one item.');
+            return;
+        }
+        button.closest('tr').remove();
+    };
+</script>
