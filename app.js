@@ -150,6 +150,22 @@ app.use('/rfqs', rfqs);
 
 const PORT = 80;
 
+// =====================================
+// 9. QUOTATION MANAGEMENT ROUTES
+// =====================================
+
+const quotations = require('./routes/quotations');
+quotations.connection = connection;
+app.use('/quotations', quotations);
+
+// =====================================
+// 10. PURCHASE ORDER MANAGEMENT ROUTES
+// =====================================
+
+const purchase_orders = require('./routes/purchase_orders');
+purchase_orders.connection = connection;
+app.use('/purchase_orders', purchase_orders);
+
 app.listen(PORT, () => {
     console.log(`SUPPLIX web server listening on port ${PORT}!`);
 });
