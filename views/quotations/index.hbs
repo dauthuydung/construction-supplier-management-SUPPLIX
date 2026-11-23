@@ -62,13 +62,7 @@
                             </td>
                             <td>{{delivery_terms}}</td>
                             <td>
-                                {{#if (eq status "accepted")}}
-                                <span class="badge bg-success">accepted</span>
-                                {{else if (eq status "rejected")}}
-                                <span class="badge bg-danger">rejected</span>
-                                {{else}}
-                                <span class="badge bg-secondary">pending</span>
-                                {{/if}}
+                                <span class="badge bg-secondary">{{status}}</span>
                             </td>
                             <td>{{created_at}}</td>
                             <td>
